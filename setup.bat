@@ -1,0 +1,1 @@
+conda install -y scikit-learn matplotlib flask
