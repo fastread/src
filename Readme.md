@@ -1,10 +1,10 @@
-What is MAR?
+What is FASTREAD?
 -----
-MAR stands for machine assisted reading, it is a tool to support primary study selection in systematic literature review.
+FASTREAD is a tool to support primary study selection in systematic literature review.
 
 Latest Versions:
 
-- On Github repo: [https://github.com/ai-se/MAR](https://github.com/ai-se/MAR).
+- On Github repo: [https://github.com/fastread/src](https://github.com/fastread/src).
 - In the Seacraft repository: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.203136.svg)](https://doi.org/10.5281/zenodo.203136)
 
 Cite as:
@@ -18,18 +18,18 @@ Cite as:
       month={Dec}}
 ```
 
-Setting up MAR
+Setting up FASTREAD
 -----
 
 1. Setting up Python:
   + We use anaconda by continuum.io (see [Why?](https://www.continuum.io/why-anaconda))
     - We won't need the entire distribution. [Download](http://conda.pydata.org/miniconda.html) a Python 2.7 version & install a minimal version of anaconda.
   + Make sure you select add to PATH during install.
-  + Next, navigate to MAR, and run `setup.bat`. This will install all the dependencies needed to run the tool.
+  + Next, run `setup.bat`. This will install all the dependencies needed to run the tool.
   + If the above does not work well. Remember you only need a Python 2.7 and three packages listed in `requirements.txt` installed.
 
 2. Running script:
-  + Navigate to *MAR > src* and run `index.py`.
+  + Navigate to *src* and run `index.py`.
   + If all is well, you'll be greeted by this:
   ![](https://github.com/ai-se/MAR/blob/master/tutorial/screenshots/run.png?raw=yes)
 
@@ -37,15 +37,15 @@ Setting up MAR
   + Fire up your browser and go to [`http://localhost:5000/hello/`](http://localhost:5000/hello/). You'll see a page like below:
   ![](https://github.com/ai-se/MAR/blob/master/tutorial/screenshots/start.png?raw=yes)
     
-Use MAR
+Use FASTREAD
 -----
 
 1. Get data ready:
-  + Put your candidate list (a csv file) in *MAR > workspace > data*.
-  + The candidate list can be as the same format as the example file *MAR > workspace > data > Hall.csv* or a csv file exported from [IEEExplore](http://ieeexplore.ieee.org/).
+  + Put your candidate list (a csv file) in *workspace > data*.
+  + The candidate list can be as the same format as the example file *workspace > data > Hall.csv* or a csv file exported from [IEEExplore](http://ieeexplore.ieee.org/).
   
 2. Load the data:
-  + Click **Choose File** button to select your csv file in *MAR > workspace > data*. Wait a few seconds for the first time. Once the data is successfully loaded, you will see the following:
+  + Click **Choose File** button to select your csv file in *workspace > data*. Wait a few seconds for the first time. Once the data is successfully loaded, you will see the following:
   ![](https://github.com/ai-se/MAR/blob/master/tutorial/screenshots/load.png?raw=yes)
   
 3. Begin reviewing studies:
@@ -62,11 +62,11 @@ Use MAR
 4. Plot the curve:
   + Click **Plot** button will plot a **Relevant studies retrieved** vs. **Studies reviewed** curve.
   + Check **Auto Plot** so that every time you hit next, a curve will be automatically generated.
-  + You can also find the figure in *MAR > src > static > image*.
+  + You can also find the figure in *src > static > image*.
   ![](https://github.com/ai-se/MAR/blob/master/tutorial/screenshots/plot.png?raw=yes)
   
 5. Export csv:
-  + Click **Export** button will generate a csv file with your coding in *MAR > workspace > coded*.
+  + Click **Export** button will generate a csv file with your coding in *workspace > coded*.
 
 6. Restart:
   + Click **Restart** button will give you a fresh start and loose all your previous effort on the current data.
