@@ -460,7 +460,7 @@ class MAR(object):
         self.body["time"][id] = time.time()
 
     ## Plot ##
-    def plot(self):
+    def plot(self,estimate=False):
         font = {'family': 'normal',
                 'weight': 'bold',
                 'size': 20}
@@ -474,14 +474,15 @@ class MAR(object):
         fig = plt.figure()
         plt.plot(self.record['x'], self.record["pos"])
         ### estimation ####
-        if len(self.est_num)>0 and self.lastprob>self.offset:
-            der = (self.record["pos"][-1]-self.record["pos"][-1-self.interval])/(self.record["x"][-1]-self.record["x"][-1-self.interval])
-            xx=np.array(range(len(self.est_num)+1))
-            yy=map(int,np.array(self.est_num)*der/(self.lastprob-self.offset)+self.record["pos"][-1])
-            # yy = map(int, np.array(self.est_num) + (der - self.lastprob)*xx[1:]*self.step + self.record["pos"][-1])
-            yy=[self.record["pos"][-1]]+list(yy)
-            xx=xx*self.step+self.record["x"][-1]
-            plt.plot(xx, yy, "-.")
+        if estimate:
+            if len(self.est_num)>0 and self.lastprob>self.offset:
+                der = (self.record["pos"][-1]-self.record["pos"][-1-self.interval])/(self.record["x"][-1]-self.record["x"][-1-self.interval])
+                xx=np.array(range(len(self.est_num)+1))
+                yy=map(int,np.array(self.est_num)*der/(self.lastprob-self.offset)+self.record["pos"][-1])
+                # yy = map(int, np.array(self.est_num) + (der - self.lastprob)*xx[1:]*self.step + self.record["pos"][-1])
+                yy=[self.record["pos"][-1]]+list(yy)
+                xx=xx*self.step+self.record["x"][-1]
+                plt.plot(xx, yy, "-.")
         ####################
         plt.ylabel("Relevant Found")
         plt.xlabel("Documents Reviewed")
