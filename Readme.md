@@ -5,7 +5,7 @@ FASTREAD is a tool to support primary study selection in systematic literature r
 Latest Versions:
 
 - On Github repo: [https://github.com/fastread/src](https://github.com/fastread/src).
-- In the Seacraft repository: [![DOI](https://zenodo.org/badge/88550256.svg)](https://zenodo.org/badge/latestdoi/88550256)
+- In the Seacraft repository: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.555970.svg)](https://doi.org/10.5281/zenodo.555970)
 
 Cite as:
 ``` 
@@ -16,7 +16,7 @@ Cite as:
   month        = apr,
   year         = 2017,
   doi          = {10.5281/zenodo.546749},
-  url          = {https://doi.org/10.5281/zenodo.546749}
+  url          = {https://doi.org/10.5281/zenodo.555970}
 }
 ```
 
