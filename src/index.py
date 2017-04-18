@@ -3,7 +3,7 @@ from __future__ import print_function, division
 import os
 import sys
 
-root = os.getcwd().split("MAR")[0] + "MAR/src/util"
+root = os.getcwd().split("src")[0] + "src/src/util"
 sys.path.append(root)
 
 from flask import Flask, url_for, render_template, request, jsonify, Response, json
