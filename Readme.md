@@ -106,3 +106,5 @@ Exported primary study selection results (e.g. *workspace > coded > Hall.csv* ) 
 Version Logs
 -----
 Dec 5, 2016. **v1.0.0** The very first, basic version is released.
+
+May 14, 2017. **v1.1.0** Features of UPDATE/REUSE are edited to allow FASTREAD import previously exported data to bootstrap a new review.
