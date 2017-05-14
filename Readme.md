@@ -81,6 +81,26 @@ Re-Use FASTREAD
 
 Exported primary study selection results (e.g. *workspace > coded > Hall.csv* ) can be re-applied to bootstrap new selections (e.g. *workspace > data > Wahono.csv* ).
 
+1. Get data ready:
+  + Make sure previously exported data is in *workspace > coded*.
+  + Or create csv file with the same format as *workspace > coded > Hall.csv* and put it in *workspace > coded*.
+  + Put your candidate list (a csv file) for the new selection in *workspace > data*.
+
+2. Load the data for current selection:
+  + Click **target: Choose File** button to select your csv file in *workspace > data*. Wait a few seconds for the first time. Once the data is successfully loaded, you will see the following:
+  ![](https://github.com/fastread/src/blob/master/tutorial/screenshots/load1.png?raw=yes)
+
+3. Load old data:
+  + Click **import: Choose File** button to select your csv file in *workspace > coded*. Wait a few seconds for the first time. Once the data is successfully loaded, you will see the following:
+  ![](https://github.com/fastread/src/blob/master/tutorial/screenshots/load2.png?raw=yes)
+  
+4. Begin reviewing studies:
+  - Select **certain** instead of **Random**
+  - choose from **Relevant**, **Irrelevant**, or **Undetermined** for each study and hit **Submit**.
+  - hit **Next** when you want a to review more.
+  - statistics are displayed as **Documents Coded: x/y (z)**, where **x** is the number of relevant studies retrieved, **y** is the number of studies reviewed, and **z** is the total number of candidate studies.
+  - If the selection criteria of target and imported review are the same, stay with **certain** selection until finished. Otherwise, change to **reuse** once **x** is greater or equal to 5.
+  - keep reviewing studies until you think most relevant ones have been retrieved.
 
   
 Version Logs
