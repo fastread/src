@@ -9,7 +9,9 @@
 <body>
 
     <div class="learn">
-        <input type="file" id="myFile" onchange="handleFileSelect(this.files)"/>
+        <font size="2">Target: </font><input type="file" id="myFile" onchange="handleFileSelect(this.files)"/>
+        <br/>
+        <font size="2">Import: </font><input type="file" id="oldFile" onchange="handleOldSelect(this.files)" disabled/>
 
         <br/>
         <button onclick="train_send()" disabled> Next </button>
@@ -17,7 +19,7 @@
         <select id="view_options" name="view" style="float:right" onchange="view_selection(this)">
             <option id="random" value="random" onclick="view_random()" selected>Random</option>
             <option id="certain" value="certain" onclick="view_certain()" >Certain</option>
-            <option id="uncertain" value="uncertain" onclick="view_uncertain()" >Uncertain</option>
+            <option id="reuse" value="reuse" onclick="view_reuse()" >Reuse</option>
         </select>
         <ol id="learn_result" style="overflow-y: scroll; height: 450px">
         </ol>

@@ -12,7 +12,6 @@ from mar import MAR
 
 app = Flask(__name__,static_url_path='/static')
 
-
 global target
 target=MAR()
 
@@ -28,6 +27,15 @@ def load():
     target=target.create(file)
     pos, neg, total = target.get_numbers()
     return jsonify({"hasLabel": target.hasLabel, "flag": target.flag, "pos": pos, "done": pos+neg, "total": total})
+
+@app.route('/load_old',methods=['POST'])
+def load_old():
+    global target
+    file=request.form['file']
+    target.create_old(file)
+    if target.last_pos==0:
+        target.flag=False
+    return jsonify({"flag": target.flag})
 
 @app.route('/export',methods=['POST'])
 def export():
@@ -74,15 +82,15 @@ def train():
     pos,neg,total=target.get_numbers()
     random_id = target.random()
     res={"random": target.format(random_id)}
-    if pos>0 and neg>0:
+    if pos>0 or target.last_pos>0:
         uncertain_id, uncertain_prob, certain_id, certain_prob = target.train()
         res["certain"] = target.format(certain_id,certain_prob)
-        res["uncertain"] = target.format(uncertain_id, uncertain_prob)
+        if target.last_pos>0:
+            uncertain_id, uncertain_prob, certain_reuse_id, certain_reuse_prob = target.train_reuse()
+            res["reuse"] = target.format(certain_reuse_id, certain_reuse_prob)
     target.save()
-    # return jsonify(res)
-    ress=json.dumps(res,ensure_ascii=False)
-    response = Response(ress,content_type="application/json; charset=utf-8" )
-    return response
+    return jsonify(res)
+
 
 
 

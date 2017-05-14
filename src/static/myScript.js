@@ -11,6 +11,16 @@ function handleFileSelect(files) {
     });    
 }
 
+function handleOldSelect(files) {
+    $.ajax({
+        type: "POST",
+        url: "/load_old",
+        async: true,
+        data: {file:files[0].name },
+        success: load_old_receive
+    });
+}
+
 function load_receive(response) {
     if(response.flag){
         display_num_labeled(response);
@@ -21,7 +31,16 @@ function load_receive(response) {
         train_send()
     }
     else{
-        window.alert("Load file failed!!");
+        window.alert("Load file failed!! Must put file under workspace/data");
+    }
+}
+
+function load_old_receive(response) {
+    if(response.flag){
+        train_send()
+    }
+    else{
+        window.alert("Load file failed!! Must put file under workspace/coded");
     }
 }
 
@@ -172,6 +191,7 @@ function train_send(){
 function train_receive(response){
     learn_result=response;
     view_selection(document.getElementById("view_options"));
+    $("#oldFile").removeAttr('disabled');
     if(document.getElementById("auto_plot").checked){
         plot_send()
     }
@@ -190,7 +210,7 @@ function view_selection(what){
                 view_certain();
                 break;
             case 2:
-                view_uncertain();
+                view_reuse();
         }
     }    
 }
@@ -235,13 +255,13 @@ function view_certain(){
     }
 }
 
-function view_uncertain() {
+function view_reuse() {
     var olnode = document.getElementById("learn_result");
     while (olnode.firstChild) {
         olnode.removeChild(olnode.firstChild);
     }
     if ("certain" in learn_result) {
-        can = learn_result.uncertain;
+        can = learn_result.reuse;
         
         for (var i = 0; i < can.length; ++i) {
 
@@ -338,6 +358,7 @@ function restart_send(){
             data: {  },
             success: load_receive
         });
+        $("#oldFile").attr('disabled',true);
         initialization();
     }    
 }
