@@ -58,7 +58,7 @@ Use FASTREAD
   - rather than **Random** sampling, you can now select **certain** or **uncertain** for reviewing studies. **certain** returns the studies that the model thinks are most possible to be relevant while **uncertain** returns the studies that model is least confident to classify.
   - keep reviewing studies until you think most relevant ones have been retrieved.
   
-4. Auto review:
+3.5. Auto review:
   + If your data contains true label, like Hall.csv does, another button called **Auto Review** will be enabled. By clicking it, it automatically labels all your current studies (depending on the selection **Random**, **certain** or **uncertain**).
 
 4. Plot the curve:
@@ -75,6 +75,13 @@ Use FASTREAD
   
 7. Remember to click **Next** button:
   + User data will be saved when and only when you hit **Next** button, so please don't forget to hit it before you want to stop reviewing.
+  
+Re-Use FASTREAD
+-----
+
+Exported primary study selection results (e.g. *workspace > coded > Hall.csv* ) can be re-applied to bootstrap new selections (e.g. *workspace > data > Wahono.csv* ).
+
+
   
 Version Logs
 -----
