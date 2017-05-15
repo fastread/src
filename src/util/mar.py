@@ -232,7 +232,7 @@ class MAR(object):
             pass
 
     ## Train model ##
-    def train(self,pne=False):
+    def train(self,pne=True):
         clf = svm.SVC(kernel='linear', probability=True)
         poses = np.where(np.array(self.body['code']) == "yes")[0]
         negs = np.where(np.array(self.body['code']) == "no")[0]
@@ -282,12 +282,7 @@ class MAR(object):
 
         decayed = list(left) + list(negs)
         unlabeled = np.where(np.array(self.body['code']) == "undetermined")[0]
-        # try:
-        #     unlabeled = np.random.choice(unlabeled,size=np.max((len(decayed),self.atleast)),replace=False)
-        # except:
-        #     pass
 
-        # print("%d,%d,%d" %(len(left),len(negs),len(unlabeled)))
 
         labels = np.array([x if x != 'undetermined' else 'no' for x in self.body['code']])
         all_neg = list(negs) + list(unlabeled)
