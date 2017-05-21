@@ -35,7 +35,7 @@ Setting up FASTREAD
   + If all is well, you'll be greeted by this:
   ![](https://github.com/fastread/src/blob/master/tutorial/screenshots/run.png?raw=yes)
 
-4. The Interface:
+3. The Interface:
   + Fire up your browser and go to [`http://localhost:5000/hello/`](http://localhost:5000/hello/). You'll see a page like below:
   ![](https://github.com/fastread/src/blob/master/tutorial/screenshots/start.png?raw=yes)
     
