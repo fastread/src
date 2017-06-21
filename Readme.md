@@ -28,7 +28,7 @@ Setting up FASTREAD
     - We won't need the entire distribution. [Download](http://conda.pydata.org/miniconda.html) a Python 2.7 version & install a minimal version of anaconda.
   + Make sure you select add to PATH during install.
   + Next, run `setup.bat`. This will install all the dependencies needed to run the tool.
-  + If the above does not work well. Remember you only need a Python 2.7 and three packages listed in `requirements.txt` installed.
+  + If the above does not work well. Remember you only need a Python 2.7 and three packages listed in `requirements.txt` installed. So `pip install -r requirements.txt` will work.
 
 2. Running script:
   + Navigate to *src* and run `index.py`.
