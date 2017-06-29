@@ -279,7 +279,14 @@ class MAR(object):
         life = lifes
         pos_num = Counter(y)[1]
         while (True):
-            es = linear_model.LogisticRegression(penalty='l2', fit_intercept=True, C=Counter(y[all])[1] / len(negs))
+            try:
+                if reuse:
+                    C = Counter(y[all])[1] / len(negs)
+                else:
+                    C = Counter(y[all])[1] / (len(negs)+self.last_neg)
+            except:
+                C = 1
+            es = linear_model.LogisticRegression(penalty='l2', fit_intercept=True, C=C)
 
             es.fit(prob[all], y[all])
             pos_at = list(es.classes_).index(1)
@@ -436,7 +443,10 @@ class MAR(object):
         certain_id, certain_prob = self.certain(clf)
 
         if self.enable_est:
-            self.est_num, self.est, est2 = self.estimate_curve(clf, reuse=False)
+            est_num, self.est, est2 = self.estimate_curve(clf, reuse=True)
+            self.est_num = int((self.est_num+est_num)/2)
+            # if est_num<self.est_num:
+            #     self.est_num=est_num
             return uncertain_id, self.est[uncertain_id], certain_id, self.est[certain_id]
         else:
             return uncertain_id, uncertain_prob, certain_id, certain_prob
