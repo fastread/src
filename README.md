@@ -108,3 +108,9 @@ Version Logs
 Dec 5, 2016. **v1.0.0** The very first, basic version is released.
 
 May 14, 2017. **v1.1.0** Features of UPDATE/REUSE are edited to allow FASTREAD import previously exported data to bootstrap a new review.
+
+Jun 29, 2017. **v1.2.0** Estimate the number of **Relevant** studies in the pool. Enabling **Estimation** will slow down the training, but provide the following benefits:
+ - number of **Relevant** studies will be estimated, thus helps to decide when to stop; 
+ - probability scores will be more accurate;
+ - probability scores can then be used to decide whether to choose **reuse** or **certain** when Re-Using FASTREAD.
+ 
