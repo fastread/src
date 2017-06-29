@@ -205,7 +205,7 @@ class MAR(object):
         return tmp
 
 
-
+    ## In progress
     def estimate_curve(self, clf, reuse=False):
         from sklearn import linear_model
         import random
@@ -419,6 +419,16 @@ class MAR(object):
         #     negs_sel = np.argsort(train_dist)[::-1][:len(left)]
         #     sample = list(left) + list(np.array(all_neg)[negs_sel])
         #     clf.fit(self.csr_mat[sample], labels[sample])
+
+        ## aggressive pne
+        train_dist = clf.decision_function(self.csr_mat[unlabeled])
+        pos_at = list(clf.classes_).index("yes")
+        if pos_at:
+            train_dist=-train_dist
+        unlabel_sel = np.argsort(train_dist)[::-1][:int(len(unlabeled)/2)]
+        sample = list(decayed)+ list(np.array(unlabeled)[unlabel_sel])
+        clf.fit(self.csr_mat[sample], labels[sample])
+        ####
 
         uncertain_id, uncertain_prob = self.uncertain(clf)
         certain_id, certain_prob = self.certain(clf)
