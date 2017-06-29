@@ -271,7 +271,7 @@ class MAR(object):
         else:
             all = range(len(y))
 
-        es = linear_model.LogisticRegression(penalty='l2', fit_intercept=True)
+
 
         pos_num_last = Counter(y)[1]
 
@@ -279,6 +279,8 @@ class MAR(object):
         life = lifes
         pos_num = Counter(y)[1]
         while (True):
+            es = linear_model.LogisticRegression(penalty='l2', fit_intercept=True, C=Counter(y[all])[1] / len(negs))
+
             es.fit(prob[all], y[all])
             pos_at = list(es.classes_).index(1)
 
@@ -604,20 +606,20 @@ class MAR(object):
         fig = plt.figure()
         plt.plot(self.record['x'], self.record["pos"])
         ### estimation ####
-        if self.enable_est:
-            if self.record["pos"][-1] > int(self.est_num/2) and self.record["pos"][-1] < self.est_num:
-                est = self.est[self.pool]
-                order = np.argsort(est)[::-1]
-                xx = [self.record["x"][-1]]
-                yy = [self.record["pos"][-1]]
-                for x in xrange(int(len(order) / self.step)):
-                    delta = sum(est[order[x * self.step:(x + 1) * self.step]])
-                    if delta >= 0.1:
-                        yy.append(yy[-1] + delta)
-                        xx.append(xx[-1] + self.step)
-                    else:
-                        break
-                plt.plot(xx, yy, "-.")
+        # if self.enable_est:
+        #     if self.record["pos"][-1] > int(self.est_num/2) and self.record["pos"][-1] < self.est_num:
+        #         est = self.est[self.pool]
+        #         order = np.argsort(est)[::-1]
+        #         xx = [self.record["x"][-1]]
+        #         yy = [self.record["pos"][-1]]
+        #         for x in xrange(int(len(order) / self.step)):
+        #             delta = sum(est[order[x * self.step:(x + 1) * self.step]])
+        #             if delta >= 0.1:
+        #                 yy.append(yy[-1] + delta)
+        #                 xx.append(xx[-1] + self.step)
+        #             else:
+        #                 break
+        #         plt.plot(xx, yy, "-.")
         ####################
         plt.ylabel("Relevant Found")
         plt.xlabel("Documents Reviewed")

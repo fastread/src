@@ -25,7 +25,7 @@ function load_receive(response) {
     if(response.flag){
         display_num_labeled(response);
         $("button").removeAttr('disabled');
-//        $("#estimate").removeAttr('disabled');
+        $("#estimate").removeAttr('disabled');
         if (!response.hasLabel){
             $("#auto").attr('disabled',true);
         }
