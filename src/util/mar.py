@@ -17,6 +17,7 @@ class MAR(object):
         self.enough = 30
         self.kept=50
         self.atleast=100
+        self.enable_est=False
 
 
     def create(self,filename):
@@ -26,10 +27,8 @@ class MAR(object):
         self.hasLabel=True
         self.record={"x":[],"pos":[]}
         self.body={}
-        self.est_num=[]
-        self.lastprob=0
-        self.offset=0.5
-        self.interval=3
+        self.est = []
+        self.est_num = 0
         self.last_pos=0
         self.last_neg=0
 
@@ -205,35 +204,142 @@ class MAR(object):
             tmp = pickle.load(handle)
         return tmp
 
-    def estimate_curve(self,clf):
-        ## estimate ##
-        # self.est_num=Counter(clf.predict(self.csr_mat[self.pool]))["yes"]
-        pos_at = list(clf.classes_).index("yes")
-        prob = clf.predict_proba(self.csr_mat[self.pool])[:, pos_at]
-        order = np.argsort(prob)[::-1]
-        tmp = [x for x in np.array(prob)[order] if x > self.offset]
 
-        ind = 0
-        sum_tmp = 0
-        self.est_num = []
-        while True:
-            tmp_x = tmp[ind * self.step:(ind + 1) * self.step]
-            if len(tmp_x) == 0:
-                break
-            sum_tmp = sum_tmp + sum(tmp_x) - self.offset * len(tmp_x)
-            self.est_num.append(sum_tmp)
-            ind = ind + 1
-            ##############
-        try:
-            past = np.argsort(self.body["time"])[::-1][:self.interval * self.step]
-            self.lastprob = np.mean(clf.predict_proba(self.csr_mat[past])[:,pos_at])
-            # self.lastprob = np.mean(np.array(prob)[order][:self.step])
-        except:
-            pass
 
-    ## Train model ##
+    def estimate_curve(self, clf, reuse=False):
+        from sklearn import linear_model
+        import random
+
+        # def prob_sample(probs):
+        #     order = np.argsort(probs)[::-1]
+        #     count = 0
+        #     can = []
+        #     sample = []
+        #     for i, x in enumerate(probs[order]):
+        #         count = count + x
+        #         can.append(order[i])
+        #         if count >= 1:
+        #             # sample.append(np.random.choice(can,1)[0])
+        #             sample.append(can[0])
+        #             count = 0
+        #             can = []
+        #     return sample
+
+        def prob_sample(probs):
+            order = np.argsort(probs)[::-1]
+            count = 0
+            can = []
+            sample = []
+            where = 1
+            for i, x in enumerate(probs[order]):
+                count = count + x
+                can.append(order[i])
+                if count >= where:
+                    # sample.append(np.random.choice(can,1)[0])
+                    sample.append(can[0])
+                    where = where + 1
+                    can = []
+            return sample
+
+        # def prob_sample(probs):
+        #     sample=[]
+        #     for i,x in enumerate(probs):
+        #         if random.random<x:
+        #             sample.append(i)
+        #     return sample
+
+        ### just labeled
+
+        poses = np.where(np.array(self.body['code']) == "yes")[0]
+        negs = np.where(np.array(self.body['code']) == "no")[0]
+
+        poses = np.array(poses)[np.argsort(np.array(self.body['time'])[poses])[self.last_pos:]]
+        negs = np.array(negs)[np.argsort(np.array(self.body['time'])[negs])[self.last_neg:]]
+
+        ###############################################
+
+        # prob = clf.predict_proba(self.csr_mat)[:,:1]
+        prob = clf.decision_function(self.csr_mat)
+        prob = np.array([[x] for x in prob])
+
+
+        y = np.array([1 if x == 'yes' else 0 for x in self.body['code']])
+        y0 = np.copy(y)
+
+        if len(poses) and reuse:
+            all = list(set(poses) | set(negs) | set(self.pool))
+        else:
+            all = range(len(y))
+
+        es = linear_model.LogisticRegression(penalty='l2', fit_intercept=True)
+
+        pos_num_last = Counter(y)[1]
+
+        lifes = 3
+        life = lifes
+        pos_num = Counter(y)[1]
+        while (True):
+            es.fit(prob[all], y[all])
+            pos_at = list(es.classes_).index(1)
+
+
+            pre = es.predict_proba(prob[self.pool])[:, pos_at]
+
+            y = np.copy(y0)
+
+            sample = prob_sample(pre)
+            for x in self.pool[sample]:
+                y[x] = 1
+
+            # for x in self.pool[np.argsort(pre)[-int(sum(pre)):]]:
+            #     y[x]=1
+
+            pos_num = Counter(y)[1]
+            if pos_num == pos_num_last:
+                life = life - 1
+                if life == 0:
+                    break
+            else:
+                life = lifes
+            pos_num_last = pos_num
+        esty = pos_num - self.last_pos
+        pre = es.predict_proba(prob)[:, pos_at]
+
+        ###
+        pre2 = es.predict_proba(prob[self.pool])[:, pos_at]
+        y = np.copy(y0)
+        for x in self.pool[np.argsort(pre2)[len(poses):]]:
+            y[x] = 1
+        es.fit(prob, y)
+        pos_at = list(es.classes_).index(1)
+        pre2 = es.predict_proba(prob)[:, pos_at]
+        ###
+
+        ##### simu curve #######
+        # self.simcurve={'x':[self.record['x'][-1]],'pos':[self.record['pos'][-1]]}
+        # already=decayed
+        # pool=np.where(np.array(self.body['code']) == "undetermined")[0]
+        # clff=svm.SVC(kernel='linear', probability=True)
+        # while True:
+        #     clff.fit(self.csr_mat[already], y[already])
+        #     pos_at = list(clff.classes_).index(1)
+        #     prob = clff.predict_proba(self.csr_mat[pool])[:, pos_at]
+        #     sample = pool[np.argsort(prob)[::-1][:self.step]]
+        #     already = already+list(sample)
+        #     pool = np.array(list(set(pool)-set(sample)))
+        #     self.simcurve['x'].append(self.simcurve['x'][-1]+self.step)
+        #     self.simcurve['pos'].append(Counter(y[already])[1])
+        #     if self.simcurve['pos'][-1] > int(Counter(y)[1]*0.9) or self.simcurve['pos'][-1]==self.simcurve['pos'][-2]:
+        #         break
+        # set_trace()
+        ########################
+
+        return esty, pre, pre2
+
+    # Train model ##
+
     def train(self,pne=True):
-        clf = svm.SVC(kernel='linear', probability=True)
+        clf = svm.SVC(kernel='linear', probability=True, class_weight='balanced')
         poses = np.where(np.array(self.body['code']) == "yes")[0]
         negs = np.where(np.array(self.body['code']) == "no")[0]
         left = poses
@@ -252,25 +358,40 @@ class MAR(object):
         all = list(decayed)+list(unlabeled)
 
         clf.fit(self.csr_mat[all], labels[all])
-        ## aggressive undersampling ##
-        if len(poses)>=self.enough:
 
-            train_dist = clf.decision_function(self.csr_mat[all_neg])
+        # aggressive pne ##
+        if pne:
+            train_dist = clf.decision_function(self.csr_mat[unlabeled])
             pos_at = list(clf.classes_).index("yes")
             if pos_at:
                 train_dist=-train_dist
-            negs_sel = np.argsort(train_dist)[::-1][:len(left)]
-            sample = list(left) + list(np.array(all_neg)[negs_sel])
+            unlabel_sel = np.argsort(train_dist)[::-1][:int(len(unlabeled)/2)]
+            sample = list(decayed)+ list(np.array(unlabeled)[unlabel_sel])
             clf.fit(self.csr_mat[sample], labels[sample])
-            self.estimate_curve(clf)
+
+        ## aggressive undersampling ##
+        # if len(poses)>=self.enough:
+        #
+        #     train_dist = clf.decision_function(self.csr_mat[all_neg])
+        #     pos_at = list(clf.classes_).index("yes")
+        #     if pos_at:
+        #         train_dist=-train_dist
+        #     negs_sel = np.argsort(train_dist)[::-1][:len(left)]
+        #     sample = list(left) + list(np.array(all_neg)[negs_sel])
+        #     clf.fit(self.csr_mat[sample], labels[sample])
 
         uncertain_id, uncertain_prob = self.uncertain(clf)
         certain_id, certain_prob = self.certain(clf)
-        return uncertain_id, uncertain_prob, certain_id, certain_prob
+
+        if self.enable_est:
+            self.est_num, self.est, est2 = self.estimate_curve(clf, reuse=False)
+            return uncertain_id, self.est[uncertain_id], certain_id, self.est[certain_id]
+        else:
+            return uncertain_id, uncertain_prob, certain_id, certain_prob
 
     ## reuse
     def train_reuse(self):
-        clf = svm.SVC(kernel='linear', probability=True)
+        clf = svm.SVC(kernel='linear', probability=True, class_weight='balanced')
         poses = np.where(np.array(self.body['code']) == "yes")[0]
         negs = np.where(np.array(self.body['code']) == "no")[0]
 
@@ -290,133 +411,137 @@ class MAR(object):
 
         clf.fit(self.csr_mat[all], labels[all])
         ## aggressive undersampling ##
-        if len(poses) >= self.enough:
-            train_dist = clf.decision_function(self.csr_mat[all_neg])
-            pos_at = list(clf.classes_).index("yes")
-            if pos_at:
-                train_dist=-train_dist
-            negs_sel = np.argsort(train_dist)[::-1][:len(left)]
-            sample = list(left) + list(np.array(all_neg)[negs_sel])
-            clf.fit(self.csr_mat[sample], labels[sample])
-            self.estimate_curve(clf)
+        # if len(poses) >= self.enough:
+        #     train_dist = clf.decision_function(self.csr_mat[all_neg])
+        #     pos_at = list(clf.classes_).index("yes")
+        #     if pos_at:
+        #         train_dist=-train_dist
+        #     negs_sel = np.argsort(train_dist)[::-1][:len(left)]
+        #     sample = list(left) + list(np.array(all_neg)[negs_sel])
+        #     clf.fit(self.csr_mat[sample], labels[sample])
 
         uncertain_id, uncertain_prob = self.uncertain(clf)
         certain_id, certain_prob = self.certain(clf)
-        return uncertain_id, uncertain_prob, certain_id, certain_prob
 
-    ## not in use currently
-    def train_reuse_random(self):
-        thres=50
-
-        clf = svm.SVC(kernel='linear', probability=True)
-        poses = np.where(np.array(self.body['code']) == "yes")[0]
-        negs = np.where(np.array(self.body['code']) == "no")[0]
-        pos, neg, total = self.get_numbers()
-        if pos == 0 or pos + neg < thres:
-            left=poses
-            decayed = list(left) + list(negs)
-        else:
-            left = np.array(poses)[np.argsort(np.array(self.body['time'])[poses])[self.last_pos:]]
-            negs = np.array(negs)[np.argsort(np.array(self.body['time'])[negs])[self.last_neg:]]
-            decayed = list(left)+list(negs)
-        clf.fit(self.csr_mat[decayed], np.array(self.body['code'])[decayed])
-        ## aggressive undersampling ##
-        if len(poses)>=self.enough:
-
-            train_dist = clf.decision_function(self.csr_mat[negs])
-            negs_sel = np.argsort(np.abs(train_dist))[::-1][:len(left)]
-            sample = list(left) + list(negs[negs_sel])
-            clf.fit(self.csr_mat[sample], np.array(self.body['code'])[sample])
-            self.estimate_curve(clf)
-
-        uncertain_id, uncertain_prob = self.uncertain(clf)
-        certain_id, certain_prob = self.certain(clf)
-        if pos == 0 or pos + neg < thres:
-            return uncertain_id, uncertain_prob, np.random.choice(list(set(certain_id) | set(self.random())),
-                                                                  size=np.min((self.step, len(
-                                                                      set(certain_id) | set(self.random())))),
-                                                                  replace=False), certain_prob
+        if self.enable_est:
+            self.est_num, self.est, est2 = self.estimate_curve(clf, reuse=False)
+            return uncertain_id, self.est[uncertain_id], certain_id, self.est[certain_id]
         else:
             return uncertain_id, uncertain_prob, certain_id, certain_prob
 
-
-
-    ## Train_kept model ##
-    def train_kept(self):
-        clf = svm.SVC(kernel='linear', probability=True)
-        poses = np.where(np.array(self.body['code']) == "yes")[0]
-        negs = np.where(np.array(self.body['code']) == "no")[0]
-
-        ## only use latest poses
-        left = np.array(poses)[np.argsort(np.array(self.body['time'])[poses])[::-1][:self.kept]]
-        negs = np.array(negs)[np.argsort(np.array(self.body['time'])[poses])[::-1][:self.kept]]
-        decayed = list(left)+list(negs)
-        unlabeled = np.where(np.array(self.body['code']) == "undetermined")[0]
-        try:
-            unlabeled = np.random.choice(unlabeled, size=np.max((len(decayed),self.atleast)), replace=False)
-        except:
-            pass
-
-        labels = np.array([x if x != 'undetermined' else 'no' for x in self.body['code']])
-        all_neg = list(negs) + list(unlabeled)
-        all = list(decayed) + list(unlabeled)
-
-        clf.fit(self.csr_mat[all], labels[all])
-        ## aggressive undersampling ##
-        if len(poses) >= self.enough:
-            train_dist = clf.decision_function(self.csr_mat[all_neg])
-            pos_at = list(clf.classes_).index("yes")
-            if pos_at:
-                train_dist=-train_dist
-            negs_sel = np.argsort(train_dist)[::-1][:len(left)]
-            sample = list(left) + list(np.array(all_neg)[negs_sel])
-            clf.fit(self.csr_mat[sample], labels[sample])
-            self.estimate_curve(clf)
-
-        uncertain_id, uncertain_prob = self.uncertain(clf)
-        certain_id, certain_prob = self.certain(clf)
-        return uncertain_id, uncertain_prob, certain_id, certain_prob
-
     ## not in use currently
-    def train_pos(self):
-        clf = svm.SVC(kernel='linear', probability=True)
-        poses = np.where(np.array(self.body['code']) == "yes")[0]
-        negs = np.where(np.array(self.body['code']) == "no")[0]
-
-        left = poses
-        negs = np.array(negs)[np.argsort(np.array(self.body['time'])[negs])[self.last_neg:]]
-
-        if len(left)==0:
-            return [], [], self.random(), []
-
-        decayed = list(left) + list(negs)
-        unlabeled = np.where(np.array(self.body['code']) == "undetermined")[0]
-        try:
-            unlabeled = np.random.choice(unlabeled,size=np.max((len(decayed),self.atleast)),replace=False)
-        except:
-            pass
-
-        # print("%d,%d,%d" %(len(left),len(negs),len(unlabeled)))
-
-        labels = np.array([x if x != 'undetermined' else 'no' for x in self.body['code']])
-        all_neg = list(negs) + list(unlabeled)
-        all = list(decayed) + list(unlabeled)
-
-        clf.fit(self.csr_mat[all], labels[all])
-        ## aggressive undersampling ##
-        if len(poses) >= self.enough:
-            train_dist = clf.decision_function(self.csr_mat[all_neg])
-            pos_at = list(clf.classes_).index("yes")
-            if pos_at:
-                train_dist=-train_dist
-            negs_sel = np.argsort(train_dist)[::-1][:len(left)]
-            sample = list(left) + list(np.array(all_neg)[negs_sel])
-            clf.fit(self.csr_mat[sample], labels[sample])
-            self.estimate_curve(clf)
-
-        uncertain_id, uncertain_prob = self.uncertain(clf)
-        certain_id, certain_prob = self.certain(clf)
-        return uncertain_id, uncertain_prob, certain_id, certain_prob
+    # def train_reuse_random(self):
+    #     thres=50
+    #
+    #     clf = svm.SVC(kernel='linear', probability=True)
+    #     poses = np.where(np.array(self.body['code']) == "yes")[0]
+    #     negs = np.where(np.array(self.body['code']) == "no")[0]
+    #     pos, neg, total = self.get_numbers()
+    #     if pos == 0 or pos + neg < thres:
+    #         left=poses
+    #         decayed = list(left) + list(negs)
+    #     else:
+    #         left = np.array(poses)[np.argsort(np.array(self.body['time'])[poses])[self.last_pos:]]
+    #         negs = np.array(negs)[np.argsort(np.array(self.body['time'])[negs])[self.last_neg:]]
+    #         decayed = list(left)+list(negs)
+    #     clf.fit(self.csr_mat[decayed], np.array(self.body['code'])[decayed])
+    #     ## aggressive undersampling ##
+    #     if len(poses)>=self.enough:
+    #
+    #         train_dist = clf.decision_function(self.csr_mat[negs])
+    #         negs_sel = np.argsort(np.abs(train_dist))[::-1][:len(left)]
+    #         sample = list(left) + list(negs[negs_sel])
+    #         clf.fit(self.csr_mat[sample], np.array(self.body['code'])[sample])
+    #         self.estimate_curve(clf)
+    #
+    #     uncertain_id, uncertain_prob = self.uncertain(clf)
+    #     certain_id, certain_prob = self.certain(clf)
+    #     if pos == 0 or pos + neg < thres:
+    #         return uncertain_id, uncertain_prob, np.random.choice(list(set(certain_id) | set(self.random())),
+    #                                                               size=np.min((self.step, len(
+    #                                                                   set(certain_id) | set(self.random())))),
+    #                                                               replace=False), certain_prob
+    #     else:
+    #         return uncertain_id, uncertain_prob, certain_id, certain_prob
+    #
+    #
+    #
+    # ## Train_kept model ##
+    # def train_kept(self):
+    #     clf = svm.SVC(kernel='linear', probability=True)
+    #     poses = np.where(np.array(self.body['code']) == "yes")[0]
+    #     negs = np.where(np.array(self.body['code']) == "no")[0]
+    #
+    #     ## only use latest poses
+    #     left = np.array(poses)[np.argsort(np.array(self.body['time'])[poses])[::-1][:self.kept]]
+    #     negs = np.array(negs)[np.argsort(np.array(self.body['time'])[poses])[::-1][:self.kept]]
+    #     decayed = list(left)+list(negs)
+    #     unlabeled = np.where(np.array(self.body['code']) == "undetermined")[0]
+    #     try:
+    #         unlabeled = np.random.choice(unlabeled, size=np.max((len(decayed),self.atleast)), replace=False)
+    #     except:
+    #         pass
+    #
+    #     labels = np.array([x if x != 'undetermined' else 'no' for x in self.body['code']])
+    #     all_neg = list(negs) + list(unlabeled)
+    #     all = list(decayed) + list(unlabeled)
+    #
+    #     clf.fit(self.csr_mat[all], labels[all])
+    #     ## aggressive undersampling ##
+    #     if len(poses) >= self.enough:
+    #         train_dist = clf.decision_function(self.csr_mat[all_neg])
+    #         pos_at = list(clf.classes_).index("yes")
+    #         if pos_at:
+    #             train_dist=-train_dist
+    #         negs_sel = np.argsort(train_dist)[::-1][:len(left)]
+    #         sample = list(left) + list(np.array(all_neg)[negs_sel])
+    #         clf.fit(self.csr_mat[sample], labels[sample])
+    #         self.estimate_curve(clf)
+    #
+    #     uncertain_id, uncertain_prob = self.uncertain(clf)
+    #     certain_id, certain_prob = self.certain(clf)
+    #     return uncertain_id, uncertain_prob, certain_id, certain_prob
+    #
+    # ## not in use currently
+    # def train_pos(self):
+    #     clf = svm.SVC(kernel='linear', probability=True)
+    #     poses = np.where(np.array(self.body['code']) == "yes")[0]
+    #     negs = np.where(np.array(self.body['code']) == "no")[0]
+    #
+    #     left = poses
+    #     negs = np.array(negs)[np.argsort(np.array(self.body['time'])[negs])[self.last_neg:]]
+    #
+    #     if len(left)==0:
+    #         return [], [], self.random(), []
+    #
+    #     decayed = list(left) + list(negs)
+    #     unlabeled = np.where(np.array(self.body['code']) == "undetermined")[0]
+    #     try:
+    #         unlabeled = np.random.choice(unlabeled,size=np.max((len(decayed),self.atleast)),replace=False)
+    #     except:
+    #         pass
+    #
+    #     # print("%d,%d,%d" %(len(left),len(negs),len(unlabeled)))
+    #
+    #     labels = np.array([x if x != 'undetermined' else 'no' for x in self.body['code']])
+    #     all_neg = list(negs) + list(unlabeled)
+    #     all = list(decayed) + list(unlabeled)
+    #
+    #     clf.fit(self.csr_mat[all], labels[all])
+    #     ## aggressive undersampling ##
+    #     if len(poses) >= self.enough:
+    #         train_dist = clf.decision_function(self.csr_mat[all_neg])
+    #         pos_at = list(clf.classes_).index("yes")
+    #         if pos_at:
+    #             train_dist=-train_dist
+    #         negs_sel = np.argsort(train_dist)[::-1][:len(left)]
+    #         sample = list(left) + list(np.array(all_neg)[negs_sel])
+    #         clf.fit(self.csr_mat[sample], labels[sample])
+    #         self.estimate_curve(clf)
+    #
+    #     uncertain_id, uncertain_prob = self.uncertain(clf)
+    #     certain_id, certain_prob = self.certain(clf)
+    #     return uncertain_id, uncertain_prob, certain_id, certain_prob
 
     ## Get certain ##
     def certain(self,clf):
@@ -455,7 +580,7 @@ class MAR(object):
         self.body["time"][id] = time.time()
 
     ## Plot ##
-    def plot(self,estimate=False):
+    def plot(self):
         font = {'family': 'normal',
                 'weight': 'bold',
                 'size': 20}
@@ -469,14 +594,19 @@ class MAR(object):
         fig = plt.figure()
         plt.plot(self.record['x'], self.record["pos"])
         ### estimation ####
-        if estimate:
-            if len(self.est_num)>0 and self.lastprob>self.offset:
-                der = (self.record["pos"][-1]-self.record["pos"][-1-self.interval])/(self.record["x"][-1]-self.record["x"][-1-self.interval])
-                xx=np.array(range(len(self.est_num)+1))
-                yy=map(int,np.array(self.est_num)*der/(self.lastprob-self.offset)+self.record["pos"][-1])
-                # yy = map(int, np.array(self.est_num) + (der - self.lastprob)*xx[1:]*self.step + self.record["pos"][-1])
-                yy=[self.record["pos"][-1]]+list(yy)
-                xx=xx*self.step+self.record["x"][-1]
+        if self.enable_est:
+            if self.record["pos"][-1] > int(self.est_num/2) and self.record["pos"][-1] < self.est_num:
+                est = self.est[self.pool]
+                order = np.argsort(est)[::-1]
+                xx = [self.record["x"][-1]]
+                yy = [self.record["pos"][-1]]
+                for x in xrange(int(len(order) / self.step)):
+                    delta = sum(est[order[x * self.step:(x + 1) * self.step]])
+                    if delta >= 0.1:
+                        yy.append(yy[-1] + delta)
+                        xx.append(xx[-1] + self.step)
+                    else:
+                        break
                 plt.plot(xx, yy, "-.")
         ####################
         plt.ylabel("Relevant Found")

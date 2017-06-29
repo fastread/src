@@ -25,6 +25,7 @@ function load_receive(response) {
     if(response.flag){
         display_num_labeled(response);
         $("button").removeAttr('disabled');
+//        $("#estimate").removeAttr('disabled');
         if (!response.hasLabel){
             $("#auto").attr('disabled',true);
         }
@@ -90,6 +91,10 @@ function initialization(){
 
 function display_num_labeled(response){    
     document.getElementById("num_labeled").innerText="Documents Coded: "+response.pos.toString()+"/"+response.done.toString()+" ("+response.total.toString()+")";
+}
+
+function display_num_estimated(number){
+    document.getElementById("num_estimated").innerText="Estimated Number of Relevant Studies: "+number.toString();
 }
 
 
@@ -190,11 +195,25 @@ function train_send(){
 
 function train_receive(response){
     learn_result=response;
+    try {
+        display_num_estimated(response.est);
+    }
+    catch(err) {}
+
     view_selection(document.getElementById("view_options"));
     $("#oldFile").removeAttr('disabled');
     if(document.getElementById("auto_plot").checked){
         plot_send()
     }
+}
+
+function estimate_stat(obj){
+    $.ajax({
+        type: "POST",
+        url: "/est",
+        async: true,
+        data: {'stat': obj.checked}
+    });
 }
 
 function view_selection(what){

@@ -54,6 +54,15 @@ def plot():
     name = target.plot()
     return jsonify({"path": name})
 
+@app.route('/est',methods=['POST'])
+def est():
+    stat = request.form['stat']
+    if stat == 'true':
+        target.enable_est = True
+    else:
+        target.enable_est = False
+    return jsonify({})
+
 @app.route('/labeling',methods=['POST'])
 def labeling():
     id = int(request.form['id'])
@@ -85,9 +94,11 @@ def train():
     if pos>0 or target.last_pos>0:
         uncertain_id, uncertain_prob, certain_id, certain_prob = target.train()
         res["certain"] = target.format(certain_id,certain_prob)
-        if target.last_pos>0:
+        if target.last_pos > 0 and pos > 0:
             uncertain_id, uncertain_prob, certain_reuse_id, certain_reuse_prob = target.train_reuse()
             res["reuse"] = target.format(certain_reuse_id, certain_reuse_prob)
+    if target.enable_est:
+        res['est'] = target.est_num
     target.save()
     return jsonify(res)
 
