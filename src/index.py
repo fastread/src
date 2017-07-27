@@ -89,14 +89,17 @@ def restart():
 @app.route('/train',methods=['POST'])
 def train():
     pos,neg,total=target.get_numbers()
-    random_id = target.random()
-    res={"random": target.format(random_id)}
+    res={}
     if pos>0 or target.last_pos>0:
-        uncertain_id, uncertain_prob, certain_id, certain_prob = target.train()
+        uncertain_id, uncertain_prob, certain_id, certain_prob = target.train(pne=False)
+        res["uncertain"] = target.format(uncertain_id,uncertain_prob)
         res["certain"] = target.format(certain_id,certain_prob)
         if target.last_pos > 0 and pos > 0:
             uncertain_id, uncertain_prob, certain_reuse_id, certain_reuse_prob = target.train_reuse()
             res["reuse"] = target.format(certain_reuse_id, certain_reuse_prob)
+    else:
+        random_id = target.random()
+        res["uncertain"] = target.format(random_id)
     if target.enable_est:
         res['est'] = target.est_num
     target.save()

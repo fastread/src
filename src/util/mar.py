@@ -206,7 +206,7 @@ class MAR(object):
 
 
     ## In progress
-    def estimate_curve(self, clf, reuse=False):
+    def estimate_curve(self, clf, reuse=False, num_neg=0):
         from sklearn import linear_model
         import random
 
@@ -259,8 +259,8 @@ class MAR(object):
         ###############################################
 
         # prob = clf.predict_proba(self.csr_mat)[:,:1]
-        prob = clf.decision_function(self.csr_mat)
-        prob = np.array([[x] for x in prob])
+        prob1 = clf.decision_function(self.csr_mat)
+        prob = np.array([[x] for x in prob1])
 
 
         y = np.array([1 if x == 'yes' else 0 for x in self.body['code']])
@@ -273,14 +273,17 @@ class MAR(object):
 
 
 
-        pos_num_last = Counter(y)[1]
+        pos_num_last = Counter(y0)[1]
 
         lifes = 3
         life = lifes
-        pos_num = Counter(y)[1]
+        pos_num = Counter(y0)[1]
+
         while (True):
             try:
-                if reuse:
+                if num_neg:
+                    C = Counter(y[all])[1] / num_neg
+                elif reuse:
                     C = Counter(y[all])[1] / len(negs)
                 else:
                     C = Counter(y[all])[1] / (len(negs)+self.last_neg)
@@ -315,13 +318,13 @@ class MAR(object):
         pre = es.predict_proba(prob)[:, pos_at]
 
         ###
-        pre2 = es.predict_proba(prob[self.pool])[:, pos_at]
-        y = np.copy(y0)
-        for x in self.pool[np.argsort(pre2)[len(poses):]]:
-            y[x] = 1
-        es.fit(prob, y)
-        pos_at = list(es.classes_).index(1)
-        pre2 = es.predict_proba(prob)[:, pos_at]
+        # pre2 = es.predict_proba(prob[self.pool])[:, pos_at]
+        # y = np.copy(y0)
+        # for x in self.pool[np.argsort(pre2)[len(poses):]]:
+        #     y[x] = 1
+        # es.fit(prob, y)
+        # pos_at = list(es.classes_).index(1)
+        # pre2 = es.predict_proba(prob)[:, pos_at]
         ###
 
         ##### simu curve #######
@@ -343,7 +346,37 @@ class MAR(object):
         # set_trace()
         ########################
 
-        return esty, pre, pre2
+
+        ########## inspect curve
+        # font = {'family': 'normal',
+        #         'weight': 'bold',
+        #         'size': 20}
+        #
+        # plt.rc('font', **font)
+        # paras = {'lines.linewidth': 5, 'legend.fontsize': 20, 'axes.labelsize': 30, 'legend.frameon': False,
+        #          'figure.autolayout': True, 'figure.figsize': (16, 8)}
+        #
+        # plt.rcParams.update(paras)
+        #
+        # fig = plt.figure()
+        # plt.scatter(prob1[self.pool], y[self.pool], marker='.', s=500, color='0.75')
+        # plt.scatter(prob1[poses], y[poses], marker='o', s=500, color='blue')
+        # plt.scatter(prob1[negs], y[negs], marker='x', s=500, color='red')
+        # order = np.argsort(prob1[all])
+        # plt.plot(prob1[all][order],pre[all][order], color='black')
+        #
+        # plt.ylabel("Prediction")
+        # plt.xlabel("Labels")
+        # name = self.name + "_" + str(int(time.time())) + ".png"
+        #
+        # dir = "./static/image"
+        # for file in os.listdir(dir):
+        #     os.remove(os.path.join(dir, file))
+        #
+        # plt.savefig("./static/image/" + name)
+        # plt.close(fig)
+        ###########
+        return esty, pre
 
     # Train model ##
 
@@ -364,36 +397,36 @@ class MAR(object):
 
         labels=np.array([x if x!='undetermined' else 'no' for x in self.body['code']])
         all_neg=list(negs)+list(unlabeled)
-        all = list(decayed)+list(unlabeled)
+        sample = list(decayed) + list(unlabeled)
 
-        clf.fit(self.csr_mat[all], labels[all])
+        clf.fit(self.csr_mat[sample], labels[sample])
 
-        # aggressive pne ##
-        if pne:
-            train_dist = clf.decision_function(self.csr_mat[unlabeled])
+
+
+        # aggressive undersampling ##
+        if len(poses)>=self.enough:
+
+            train_dist = clf.decision_function(self.csr_mat[all_neg])
             pos_at = list(clf.classes_).index("yes")
             if pos_at:
                 train_dist=-train_dist
-            unlabel_sel = np.argsort(train_dist)[::-1][:int(len(unlabeled)/2)]
-            sample = list(decayed)+ list(np.array(unlabeled)[unlabel_sel])
+            negs_sel = np.argsort(train_dist)[::-1][:len(left)]
+            sample = list(left) + list(np.array(all_neg)[negs_sel])
             clf.fit(self.csr_mat[sample], labels[sample])
-
-        ## aggressive undersampling ##
-        # if len(poses)>=self.enough:
-        #
-        #     train_dist = clf.decision_function(self.csr_mat[all_neg])
-        #     pos_at = list(clf.classes_).index("yes")
-        #     if pos_at:
-        #         train_dist=-train_dist
-        #     negs_sel = np.argsort(train_dist)[::-1][:len(left)]
-        #     sample = list(left) + list(np.array(all_neg)[negs_sel])
-        #     clf.fit(self.csr_mat[sample], labels[sample])
+        elif pne:
+            train_dist = clf.decision_function(self.csr_mat[unlabeled])
+            pos_at = list(clf.classes_).index("yes")
+            if pos_at:
+                train_dist = -train_dist
+            unlabel_sel = np.argsort(train_dist)[::-1][:int(len(unlabeled) / 2)]
+            sample = list(decayed) + list(np.array(unlabeled)[unlabel_sel])
+            clf.fit(self.csr_mat[sample], labels[sample])
 
         uncertain_id, uncertain_prob = self.uncertain(clf)
         certain_id, certain_prob = self.certain(clf)
 
         if self.enable_est:
-            self.est_num, self.est, est2 = self.estimate_curve(clf, reuse=False)
+            self.est_num, self.est = self.estimate_curve(clf, reuse=False, num_neg=len(sample)-len(left))
             return uncertain_id, self.est[uncertain_id], certain_id, self.est[certain_id]
         else:
             return uncertain_id, uncertain_prob, certain_id, certain_prob
@@ -416,18 +449,26 @@ class MAR(object):
 
         labels = np.array([x if x != 'undetermined' else 'no' for x in self.body['code']])
         all_neg = list(negs) + list(unlabeled)
-        all = list(decayed) + list(unlabeled)
+        sample = list(decayed) + list(unlabeled)
 
-        clf.fit(self.csr_mat[all], labels[all])
-        ## aggressive undersampling ##
-        # if len(poses) >= self.enough:
-        #     train_dist = clf.decision_function(self.csr_mat[all_neg])
-        #     pos_at = list(clf.classes_).index("yes")
-        #     if pos_at:
-        #         train_dist=-train_dist
-        #     negs_sel = np.argsort(train_dist)[::-1][:len(left)]
-        #     sample = list(left) + list(np.array(all_neg)[negs_sel])
-        #     clf.fit(self.csr_mat[sample], labels[sample])
+        clf.fit(self.csr_mat[sample], labels[sample])
+        # aggressive undersampling ##
+        if len(poses) >= self.enough:
+            train_dist = clf.decision_function(self.csr_mat[all_neg])
+            pos_at = list(clf.classes_).index("yes")
+            if pos_at:
+                train_dist=-train_dist
+            negs_sel = np.argsort(train_dist)[::-1][:len(left)]
+            sample = list(left) + list(np.array(all_neg)[negs_sel])
+            clf.fit(self.csr_mat[sample], labels[sample])
+        else:
+            train_dist = clf.decision_function(self.csr_mat[unlabeled])
+            pos_at = list(clf.classes_).index("yes")
+            if pos_at:
+                train_dist = -train_dist
+            unlabel_sel = np.argsort(train_dist)[::-1][:int(len(unlabeled) / 2)]
+            sample = list(decayed) + list(np.array(unlabeled)[unlabel_sel])
+            clf.fit(self.csr_mat[sample], labels[sample])
 
         ## aggressive pne
         train_dist = clf.decision_function(self.csr_mat[unlabeled])
@@ -443,7 +484,7 @@ class MAR(object):
         certain_id, certain_prob = self.certain(clf)
 
         if self.enable_est:
-            est_num, self.est, est2 = self.estimate_curve(clf, reuse=True)
+            est_num, self.est = self.estimate_curve(clf, reuse=True, num_neg=len(sample)-len(left))
             self.est_num = int((self.est_num+est_num)/2)
             # if est_num<self.est_num:
             #     self.est_num=est_num

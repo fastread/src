@@ -223,7 +223,7 @@ function view_selection(what){
     else{
         switch(parseInt(what.selectedIndex)){
             case 0:
-                view_random();
+                view_uncertain();
                 break;
             case 1:
                 view_certain();
@@ -234,8 +234,8 @@ function view_selection(what){
     }    
 }
 
-function view_random(){
-    can = learn_result.random;
+function view_uncertain(){
+    can = learn_result.uncertain;
     var olnode=document.getElementById("learn_result");
     while (olnode.firstChild) {
         olnode.removeChild(olnode.firstChild);
@@ -244,7 +244,12 @@ function view_random(){
     for (var i = 0; i < can.length; ++i){
 
         var newli=document.createElement("li");
-        var node=document.createTextNode( can[i]["Document Title"]);
+        try {
+            var node=document.createTextNode( can[i]["Document Title"]+" ("+can[i]["prob"].toString()+")");
+        }
+        catch(err) {
+            var node=document.createTextNode( can[i]["Document Title"]);
+        }
         newli.appendChild(node);
         newli.setAttribute("value",i);
         newli.setAttribute("onclick","show_send(this,\"learn\")");
