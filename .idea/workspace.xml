@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8ba5a36a-bb52-478b-abed-12b99b88a061" name="Default" comment="" />
+    <list default="true" id="8ba5a36a-bb52-478b-abed-12b99b88a061" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/static/image/spacehoder" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tutorial/screenshots/all.png" afterPath="" />
+    </list>
     <ignored path="src.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
