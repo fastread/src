@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ba5a36a-bb52-478b-abed-12b99b88a061" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/static/image/Wahono_1501099351.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tutorial/screenshots/load.png" afterPath="$PROJECT_DIR$/tutorial/screenshots/load.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tutorial/screenshots/load1.png" afterPath="$PROJECT_DIR$/tutorial/screenshots/load1.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tutorial/screenshots/load2.png" afterPath="$PROJECT_DIR$/tutorial/screenshots/load2.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tutorial/screenshots/plot.png" afterPath="$PROJECT_DIR$/tutorial/screenshots/plot.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tutorial/screenshots/start.png" afterPath="$PROJECT_DIR$/tutorial/screenshots/start.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/static/myScript.js" afterPath="$PROJECT_DIR$/src/static/myScript.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/static/image/Hall_1501597718.png" afterPath="" />
     </list>
     <ignored path="src.iws" />
     <ignored path=".idea/workspace.xml" />
