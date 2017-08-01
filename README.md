@@ -47,19 +47,19 @@ Use FASTREAD
   + The candidate list can be as the same format as the example file *workspace > data > Hall.csv* or a csv file exported from [IEEExplore](http://ieeexplore.ieee.org/).
   
 2. Load the data:
-  + Click **Choose File** button to select your csv file in *workspace > data*. Wait a few seconds for the first time. Once the data is successfully loaded, you will see the following:
+  + Click **Target: Choose File** button to select your csv file in *workspace > data*. Wait a few seconds for the first time. Once the data is successfully loaded, you will see the following:
   ![](https://github.com/fastread/src/blob/master/tutorial/screenshots/load.png?raw=yes)
   
 3. Begin reviewing studies:
-  - choose from **Relevant**, **Irrelevant**, or **Undetermined** for each study and hit **Submit**.
-  - hit **Next** when you want a to review more.
-  - statistics are displayed as **Documents Coded: x/y (z)**, where **x** is the number of relevant studies retrieved, **y** is the number of studies reviewed, and **z** is the total number of candidate studies.
-  - when **x** is greater than or equal to 1, an SVM model will be trained after hitting **Next**.
-  - rather than **Random** sampling, you can now select **certain** or **uncertain** for reviewing studies. **certain** returns the studies that the model thinks are most possible to be relevant while **uncertain** returns the studies that model is least confident to classify.
-  - keep reviewing studies until you think most relevant ones have been retrieved.
+  - Choose from **Relevant**, **Irrelevant**, or **Undetermined** for each study and hit **Submit**.
+  - Hit **Next** when you want a to review more.
+  - Statistics are displayed as **Documents Coded: x/y (z)**, where **x** is the number of relevant studies retrieved, **y** is the number of studies reviewed, and **z** is the total number of candidate studies.
+  - When **x** is greater than or equal to 1, an SVM model will be trained after hitting **Next**. From now on, different query strategies can be chosen.
+  - It is suggested to keep using **Uncertain** until the highest probability score for **Certain** is greater than 0.9 or no **Relevant** studies can be found throught **Uncertain** (switch to **Certain** at that point of time).
+  - keep reviewing studies until you think most relevant ones have been retrieved. (If **Estimation** is enabled, stop when **x** is close to or greater than 0.95 of the estimated number of **Relevant** studies.)
   
 3.5. Auto review:
-  + If your data contains true label, like Hall.csv does, another button called **Auto Review** will be enabled. By clicking it, it automatically labels all your current studies (depending on the selection **Random**, **certain** or **uncertain**).
+  + If your data contains true label, like Hall.csv does, another button called **Auto Review** will be enabled. By clicking it, it automatically labels all your current studies (depending on the selection **Certain** or **Uncertain**).
 
 4. Plot the curve:
   + Click **Plot** button will plot a **Relevant studies retrieved** vs. **Studies reviewed** curve.
@@ -95,12 +95,12 @@ Exported primary study selection results (e.g. *workspace > coded > Hall.csv* ) 
   ![](https://github.com/fastread/src/blob/master/tutorial/screenshots/load2.png?raw=yes)
   
 4. Begin reviewing studies:
-  - Select **certain** instead of **Random**
+  - Select **Certain** instead of **Uncertain**
   - choose from **Relevant**, **Irrelevant**, or **Undetermined** for each study and hit **Submit**.
   - hit **Next** when you want a to review more.
   - statistics are displayed as **Documents Coded: x/y (z)**, where **x** is the number of relevant studies retrieved, **y** is the number of studies reviewed, and **z** is the total number of candidate studies.
-  - If the selection criteria of target and imported review are the same, stay with **certain** selection until finished. Otherwise, change to **reuse** once **x** is greater or equal to 5.
-  - keep reviewing studies until you think most relevant ones have been retrieved.
+  - If the selection criteria of target and imported review are the same, stay with **Certain** selection until finished. Otherwise, change to **Reuse** once **x** is greater or equal to 5. (If **Estimation** is enabled, it is suggested to choose from **Certain** or **Reuse** depending on the probability estimation.)
+  - keep reviewing studies until you think most relevant ones have been retrieved. (If **Estimation** is enabled, stop when **x** is close to or greater than 0.95 of the estimated number of **Relevant** studies.)
 
   
 Version Logs
@@ -112,5 +112,7 @@ May 14, 2017. **v1.1.0** Features of UPDATE/REUSE are edited to allow FASTREAD i
 Jun 29, 2017. **v1.2.0** Estimate the number of **Relevant** studies in the pool. Enabling **Estimation** will slow down the training, but provide the following benefits:
  - number of **Relevant** studies will be estimated, thus helps to decide when to stop; 
  - probability scores will be more accurate;
- - probability scores can then be used to decide whether to choose **reuse** or **certain** when Re-Using FASTREAD.
+ - probability scores can then be used to decide whether to choose **Reuse** or **Certain** when Re-Using FASTREAD.
+
+Aug 01, 2017. **v1.3.0** Core algorithm updated to utilize both Weighting and aggressive undersampling.
  
