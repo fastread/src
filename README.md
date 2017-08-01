@@ -5,18 +5,18 @@ FASTREAD is a tool to support primary study selection in systematic literature r
 Latest Versions:
 
 - On Github repo: [https://github.com/fastread/src](https://github.com/fastread/src).
-- In the Seacraft repository: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.821211.svg)](https://doi.org/10.5281/zenodo.821211)
+- In the Seacraft repository: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.837861.svg)](https://doi.org/10.5281/zenodo.837861)
 
 Cite as:
 ``` 
-@misc{zhe_yu_2017_821211,
+@misc{zhe_yu_2017_837861,
   author       = {Zhe Yu and
                   Tim Menzies},
-  title        = {fastread/src: Estimate number of relevant studies},
-  month        = jun,
+  title        = {fastread/src: Core Algorithm Update},
+  month        = aug,
   year         = 2017,
-  doi          = {10.5281/zenodo.821211},
-  url          = {https://doi.org/10.5281/zenodo.821211}
+  doi          = {10.5281/zenodo.837861},
+  url          = {https://doi.org/10.5281/zenodo.837861}
 }
 ```
 
