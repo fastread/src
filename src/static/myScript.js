@@ -197,6 +197,7 @@ function train_receive(response){
     learn_result=response;
     try {
         display_num_estimated(response.est);
+        $("#estimate").checked = true;
     }
     catch(err) {}
 

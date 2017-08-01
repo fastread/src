@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ba5a36a-bb52-478b-abed-12b99b88a061" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/static/image/Wahono_1501099351.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tutorial/screenshots/load.png" afterPath="$PROJECT_DIR$/tutorial/screenshots/load.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tutorial/screenshots/load1.png" afterPath="$PROJECT_DIR$/tutorial/screenshots/load1.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tutorial/screenshots/load2.png" afterPath="$PROJECT_DIR$/tutorial/screenshots/load2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tutorial/screenshots/plot.png" afterPath="$PROJECT_DIR$/tutorial/screenshots/plot.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tutorial/screenshots/start.png" afterPath="$PROJECT_DIR$/tutorial/screenshots/start.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/static/myScript.js" afterPath="$PROJECT_DIR$/src/static/myScript.js" />
     </list>
     <ignored path="src.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -22,11 +29,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="mar.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mar.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/util/mar.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="518">
-              <caret line="288" column="70" lean-forward="false" selection-start-line="288" selection-start-column="70" selection-end-line="288" selection-end-column="70" />
+            <state relative-caret-position="306">
+              <caret line="380" column="11" lean-forward="false" selection-start-line="380" selection-start-column="6" selection-end-line="380" selection-end-column="11" />
               <folding>
                 <element signature="e#525#1188#0" expanded="false" />
                 <element signature="e#825#894#0" expanded="false" />
@@ -80,11 +87,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="myScript.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="myScript.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/static/myScript.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4029">
-              <caret line="237" column="32" lean-forward="false" selection-start-line="237" selection-start-column="23" selection-end-line="237" selection-end-column="32" />
+            <state relative-caret-position="208">
+              <caret line="199" column="38" lean-forward="false" selection-start-line="199" selection-start-column="38" selection-end-line="199" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -93,7 +100,7 @@
       <file leaf-file-name="hello.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/templates/hello.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
+            <state relative-caret-position="-60">
               <caret line="19" column="33" lean-forward="false" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="33" />
               <folding />
             </state>
@@ -103,7 +110,7 @@
       <file leaf-file-name="index.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/index.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1530">
+            <state relative-caret-position="926">
               <caret line="93" column="87" lean-forward="false" selection-start-line="93" selection-start-column="87" selection-end-line="93" selection-end-column="87" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
@@ -125,6 +132,8 @@
       <find>learn_result</find>
       <find>random</find>
       <find>uncertain</find>
+      <find>train</find>
+      <find>estimate_stat</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -134,9 +143,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/templates/hello.html" />
-        <option value="$PROJECT_DIR$/src/static/myScript.js" />
         <option value="$PROJECT_DIR$/src/index.py" />
         <option value="$PROJECT_DIR$/src/util/mar.py" />
+        <option value="$PROJECT_DIR$/src/static/myScript.js" />
       </list>
     </option>
   </component>
@@ -365,8 +374,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1026" extended-state="1" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="0" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3031785" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -992,39 +1000,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/static/image/Hall_1498680737.png" />
-    <entry file="file://$PROJECT_DIR$/src/templates/hello.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="33" lean-forward="false" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/static/myScript.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4029">
-          <caret line="237" column="32" lean-forward="false" selection-start-line="237" selection-start-column="23" selection-end-line="237" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/static/image/Hall_1501092690.png" />
     <entry file="file://$PROJECT_DIR$/src/static/image/Hall_1501093031.png" />
     <entry file="file://$PROJECT_DIR$/src/static/image/Hall_1501093127.png" />
-    <entry file="file://$PROJECT_DIR$/src/index.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="93" column="87" lean-forward="false" selection-start-line="93" selection-start-column="87" selection-end-line="93" selection-end-column="87" />
-          <folding>
-            <element signature="e#0#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/util/mar.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
-          <caret line="288" column="70" lean-forward="false" selection-start-line="288" selection-start-column="70" selection-end-line="288" selection-end-column="70" />
+        <state relative-caret-position="306">
+          <caret line="380" column="11" lean-forward="false" selection-start-line="380" selection-start-column="6" selection-end-line="380" selection-end-column="11" />
           <folding>
             <element signature="e#525#1188#0" expanded="false" />
             <element signature="e#825#894#0" expanded="false" />
@@ -1074,6 +1056,32 @@
             <element signature="e#27421#27818#0" expanded="false" />
             <element signature="e#27693#27777#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="926">
+          <caret line="93" column="87" lean-forward="false" selection-start-line="93" selection-start-column="87" selection-end-line="93" selection-end-column="87" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/templates/hello.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-60">
+          <caret line="19" column="33" lean-forward="false" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/static/myScript.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="199" column="38" lean-forward="false" selection-start-line="199" selection-start-column="38" selection-end-line="199" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
