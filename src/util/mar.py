@@ -208,22 +208,7 @@ class MAR(object):
     ## In progress
     def estimate_curve(self, clf, reuse=False, num_neg=0):
         from sklearn import linear_model
-        import random
 
-        # def prob_sample(probs):
-        #     order = np.argsort(probs)[::-1]
-        #     count = 0
-        #     can = []
-        #     sample = []
-        #     for i, x in enumerate(probs[order]):
-        #         count = count + x
-        #         can.append(order[i])
-        #         if count >= 1:
-        #             # sample.append(np.random.choice(can,1)[0])
-        #             sample.append(can[0])
-        #             count = 0
-        #             can = []
-        #     return sample
 
         def prob_sample(probs):
             order = np.argsort(probs)[::-1]
@@ -241,14 +226,7 @@ class MAR(object):
                     can = []
             return sample
 
-        # def prob_sample(probs):
-        #     sample=[]
-        #     for i,x in enumerate(probs):
-        #         if random.random<x:
-        #             sample.append(i)
-        #     return sample
 
-        ### just labeled
 
         poses = np.where(np.array(self.body['code']) == "yes")[0]
         negs = np.where(np.array(self.body['code']) == "no")[0]
@@ -258,7 +236,7 @@ class MAR(object):
 
         ###############################################
 
-        # prob = clf.predict_proba(self.csr_mat)[:,:1]
+
         prob1 = clf.decision_function(self.csr_mat)
         prob = np.array([[x] for x in prob1])
 
@@ -303,9 +281,6 @@ class MAR(object):
             for x in self.pool[sample]:
                 y[x] = 1
 
-            # for x in self.pool[np.argsort(pre)[-int(sum(pre)):]]:
-            #     y[x]=1
-
             pos_num = Counter(y)[1]
             if pos_num == pos_num_last:
                 life = life - 1
@@ -317,65 +292,7 @@ class MAR(object):
         esty = pos_num - self.last_pos
         pre = es.predict_proba(prob)[:, pos_at]
 
-        ###
-        # pre2 = es.predict_proba(prob[self.pool])[:, pos_at]
-        # y = np.copy(y0)
-        # for x in self.pool[np.argsort(pre2)[len(poses):]]:
-        #     y[x] = 1
-        # es.fit(prob, y)
-        # pos_at = list(es.classes_).index(1)
-        # pre2 = es.predict_proba(prob)[:, pos_at]
-        ###
 
-        ##### simu curve #######
-        # self.simcurve={'x':[self.record['x'][-1]],'pos':[self.record['pos'][-1]]}
-        # already=decayed
-        # pool=np.where(np.array(self.body['code']) == "undetermined")[0]
-        # clff=svm.SVC(kernel='linear', probability=True)
-        # while True:
-        #     clff.fit(self.csr_mat[already], y[already])
-        #     pos_at = list(clff.classes_).index(1)
-        #     prob = clff.predict_proba(self.csr_mat[pool])[:, pos_at]
-        #     sample = pool[np.argsort(prob)[::-1][:self.step]]
-        #     already = already+list(sample)
-        #     pool = np.array(list(set(pool)-set(sample)))
-        #     self.simcurve['x'].append(self.simcurve['x'][-1]+self.step)
-        #     self.simcurve['pos'].append(Counter(y[already])[1])
-        #     if self.simcurve['pos'][-1] > int(Counter(y)[1]*0.9) or self.simcurve['pos'][-1]==self.simcurve['pos'][-2]:
-        #         break
-        # set_trace()
-        ########################
-
-
-        ########## inspect curve
-        # font = {'family': 'normal',
-        #         'weight': 'bold',
-        #         'size': 20}
-        #
-        # plt.rc('font', **font)
-        # paras = {'lines.linewidth': 5, 'legend.fontsize': 20, 'axes.labelsize': 30, 'legend.frameon': False,
-        #          'figure.autolayout': True, 'figure.figsize': (16, 8)}
-        #
-        # plt.rcParams.update(paras)
-        #
-        # fig = plt.figure()
-        # plt.scatter(prob1[self.pool], y[self.pool], marker='.', s=500, color='0.75')
-        # plt.scatter(prob1[poses], y[poses], marker='o', s=500, color='blue')
-        # plt.scatter(prob1[negs], y[negs], marker='x', s=500, color='red')
-        # order = np.argsort(prob1[all])
-        # plt.plot(prob1[all][order],pre[all][order], color='black')
-        #
-        # plt.ylabel("Prediction")
-        # plt.xlabel("Labels")
-        # name = self.name + "_" + str(int(time.time())) + ".png"
-        #
-        # dir = "./static/image"
-        # for file in os.listdir(dir):
-        #     os.remove(os.path.join(dir, file))
-        #
-        # plt.savefig("./static/image/" + name)
-        # plt.close(fig)
-        ###########
         return esty, pre
 
     # Train model ##
