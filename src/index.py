@@ -69,6 +69,7 @@ def labeling():
     label = request.form['label']
     target.code(id,label)
     pos, neg, total = target.get_numbers()
+    target.save()
     return jsonify({"flag": target.flag, "pos": pos, "done": pos + neg, "total": total})
 
 @app.route('/auto',methods=['POST'])
@@ -105,6 +106,16 @@ def train():
     target.save()
     return jsonify(res)
 
+@app.route('/search',methods=['POST'])
+def search():
+    import re
+    query=request.form['query']
+    keywords = re.sub(r'[\W_]+', ' ', query).split()
+    target.BM25(keywords)
+    res={}
+    ids, scores = target.BM25_get()
+    res['bm25']=target.format(ids,scores)
+    return jsonify(res)
 
 
 

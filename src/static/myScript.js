@@ -122,6 +122,40 @@ function show_send(what,which) {
     $("#displaydoc").html("<h3><a href=\""+tmp[what.value]["PDF Link"]+"\" target=\"blank\">"+tmp[what.value]["Document Title"]+"</a></h3>"+tmp[what.value]["Abstract"]);
 }
 
+function search_send(what){
+    $.ajax({
+        type: "POST",
+        url: "/search",
+        async: true,
+        data: { query: what.query.value },
+        success: search_receive
+    });
+}
+
+function search_receive(response){
+    can = response.bm25;
+    var olnode=document.getElementById("learn_result");
+    while (olnode.firstChild) {
+        olnode.removeChild(olnode.firstChild);
+    }
+
+    for (var i = 0; i < can.length; ++i){
+
+        var newli=document.createElement("li");
+        try {
+            var node=document.createTextNode( can[i]["Document Title"]+" ("+can[i]["prob"].toString()+")");
+        }
+        catch(err) {
+            var node=document.createTextNode( can[i]["Document Title"]);
+        }
+        newli.appendChild(node);
+        newli.setAttribute("value",i);
+        newli.setAttribute("onclick","show_send(this,\"learn\")");
+        olnode.appendChild(newli);
+    }
+    show_send(olnode.firstChild,"learn");
+
+}
 
 function labeling_send(what){
     $.ajax({

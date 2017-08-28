@@ -12,15 +12,19 @@
         <font size="2">Target: </font><input type="file" id="myFile" onchange="handleFileSelect(this.files)"/>
         <br/>
         <font size="2">Import: </font><input type="file" id="oldFile" onchange="handleOldSelect(this.files)" disabled/>
-
         <br/>
-        <button onclick="train_send()" disabled> Next </button>
-        <button onclick="auto_review()" id="auto" disabled> Auto Review </button>
-        <select id="view_options" name="view" style="float:right" onchange="view_selection(this)">
+        <select id="view_options" name="view" style="float:left" onchange="view_selection(this)">
             <option id="uncertain" value="uncertain" onclick="view_uncertain()" selected>Uncertain</option>
             <option id="certain" value="certain" onclick="view_certain()" >Certain</option>
             <option id="reuse" value="reuse" onclick="view_reuse()" >Reuse</option>
         </select>
+        <button onclick="train_send()" style="float:right" disabled> Next </button>
+        <button onclick="auto_review()" id="auto" style="float:right" disabled> Auto Review </button>
+        <br/>
+        <form id="search" action="javascript:;" onsubmit="search_send(this)">
+        <input type="text" name="query" id="query">
+        <input type="submit" value="Search" style="float:right" >
+        </form>
         <ol id="learn_result" style="overflow-y: scroll; height: 450px">
         </ol>
     </div>
