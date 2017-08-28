@@ -75,8 +75,16 @@ Use FASTREAD
   
 7. Remember to click **Next** button:
   + User data will be saved when and only when you hit **Next** button, so please don't forget to hit it before you want to stop reviewing.
+
+Better ways to start the review:
   
-Re-Use FASTREAD
+ - Start with keyword search (New feature in v1.4.0)
+-----
+
+A simple search with two or three keywords can help find **Relevant** studies fast before any training starts. After finding the first **Relevant** study, **Uncertain** sampling can begin.
+![](https://github.com/fastread/src/blob/master/tutorial/screenshots/BM25.png?raw=yes)
+
+ - Re-Use FASTREAD
 -----
 
 Exported primary study selection results (e.g. *workspace > coded > Hall.csv* ) can be re-applied to bootstrap new selections (e.g. *workspace > data > Wahono.csv* ).
@@ -99,8 +107,9 @@ Exported primary study selection results (e.g. *workspace > coded > Hall.csv* ) 
   - choose from **Relevant**, **Irrelevant**, or **Undetermined** for each study and hit **Submit**.
   - hit **Next** when you want a to review more.
   - statistics are displayed as **Documents Coded: x/y (z)**, where **x** is the number of relevant studies retrieved, **y** is the number of studies reviewed, and **z** is the total number of candidate studies.
-  - If the selection criteria of target and imported review are the same, stay with **Certain** selection until finished. Otherwise, change to **Reuse** once **x** is greater or equal to 5. (If **Estimation** is enabled, it is suggested to choose from **Certain** or **Reuse** depending on the probability estimation.)
+  - **Reuse** uses only the data from current review for training. If **Estimation** is enabled, it is suggested to choose from **Certain** or **Reuse** depending on the probability estimation.
   - keep reviewing studies until you think most relevant ones have been retrieved. (If **Estimation** is enabled, stop when **x** is close to or greater than 0.95 of the estimated number of **Relevant** studies.)
+
 
   
 Version Logs
