@@ -77,7 +77,7 @@ Use FASTREAD
   + User data will be saved when and only when you hit **Next** button, so please don't forget to hit it before you want to stop reviewing.
 
 Better ways to start the review:
-  
+  
  - Start with keyword search (New feature in v1.4.0)
 -----
 
