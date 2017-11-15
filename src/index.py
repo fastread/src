@@ -14,6 +14,8 @@ app = Flask(__name__,static_url_path='/static')
 
 global target
 target=MAR()
+global clf
+clf = []
 
 @app.route('/hello/')
 def hello():
@@ -89,21 +91,30 @@ def restart():
 
 @app.route('/train',methods=['POST'])
 def train():
+    global clf
     pos,neg,total=target.get_numbers()
     res={}
     if pos>0 or target.last_pos>0:
-        uncertain_id, uncertain_prob, certain_id, certain_prob = target.train(pne=False)
+        uncertain_id, uncertain_prob, certain_id, certain_prob, clf = target.train(pne=True)
         res["uncertain"] = target.format(uncertain_id,uncertain_prob)
         res["certain"] = target.format(certain_id,certain_prob)
-        if target.last_pos > 0 and pos > 0:
-            uncertain_id, uncertain_prob, certain_reuse_id, certain_reuse_prob = target.train_reuse()
-            res["reuse"] = target.format(certain_reuse_id, certain_reuse_prob)
+        # if target.last_pos > 0 and pos > 0:
+        #     uncertain_id, uncertain_prob, certain_reuse_id, certain_reuse_prob = target.train_reuse(pne=True)
+        #     res["reuse"] = target.format(certain_reuse_id, certain_reuse_prob)
     else:
         random_id = target.random()
         res["uncertain"] = target.format(random_id)
     if target.enable_est:
         res['est'] = target.est_num
     target.save()
+    return jsonify(res)
+
+@app.route('/susp',methods=['POST'])
+def susp():
+    res={}
+    pos_id, pos_prob, neg_id, neg_prob = target.susp(clf)
+    res["pos"] = target.format(pos_id,pos_prob)
+    res["neg"] = target.format(neg_id,neg_prob)
     return jsonify(res)
 
 @app.route('/search',methods=['POST'])

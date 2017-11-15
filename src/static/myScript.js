@@ -1,5 +1,14 @@
 initialization();
 
+function initialization(){
+    // global variables
+    current_node=document.getElementById("elasticinput");
+    changed=false;
+    learn_result={};
+    can={};
+    labeled=null;
+    $("#myImage").removeAttr("src")
+}
 
 function handleFileSelect(files) {
     $.ajax({
@@ -79,14 +88,7 @@ function plot_receive(response) {
     $("#myImage").attr("src","/static/image/"+response.path);
 }
 
-function initialization(){
-    // global variables
-    current_node=document.getElementById("elasticinput");    
-    changed=false;
-    learn_result={};
-    can={};
-    $("#myImage").removeAttr("src")
-}
+
 
 
 function display_num_labeled(response){    
@@ -168,7 +170,7 @@ function labeling_send(what){
 }
 
 function labeling_receive(response){
-    
+    changed = true
     if(response.flag){
         display_num_labeled(response);
     }  
@@ -233,8 +235,8 @@ function train_receive(response){
         display_num_estimated(response.est);
         $("#estimate").checked = true;
     }
-    catch(err) {}
-
+    catch(err) {};
+    labeled=null;
     view_selection(document.getElementById("view_options"));
     $("#oldFile").removeAttr('disabled');
     if(document.getElementById("auto_plot").checked){
@@ -264,7 +266,10 @@ function view_selection(what){
                 view_certain();
                 break;
             case 2:
-                view_reuse();
+                view_pos();
+                break;
+            case 3:
+                view_neg();
         }
     }    
 }
@@ -280,10 +285,10 @@ function view_uncertain(){
 
         var newli=document.createElement("li");
         try {
-            var node=document.createTextNode( can[i]["Document Title"]+" ("+can[i]["prob"].toString()+")");
+            var node=document.createTextNode(" (ID: " + can[i]["id"] + ")" + can[i]["Document Title"]+" ("+can[i]["prob"].toString()+")");
         }
         catch(err) {
-            var node=document.createTextNode( can[i]["Document Title"]);
+            var node=document.createTextNode(" (ID: " + can[i]["id"] + ")" + can[i]["Document Title"]);
         }
         newli.appendChild(node);
         newli.setAttribute("value",i);
@@ -304,7 +309,7 @@ function view_certain(){
         for (var i = 0; i < can.length; ++i){
 
             var newli=document.createElement("li");
-            var node=document.createTextNode( can[i]["Document Title"]+" ("+can[i]["prob"].toString()+")");
+            var node=document.createTextNode(" (ID: " + can[i]["id"] + ")" + can[i]["Document Title"]+" ("+can[i]["prob"].toString()+")");
             newli.appendChild(node);
             newli.setAttribute("value",i);
             newli.setAttribute("onclick","show_send(this,\"learn\")");
@@ -325,7 +330,84 @@ function view_reuse() {
         for (var i = 0; i < can.length; ++i) {
 
             var newli = document.createElement("li");
-            var node = document.createTextNode(can[i]["Document Title"] + " (" + can[i]["prob"].toString() + ")");
+            var node=document.createTextNode(" (ID: " + can[i]["id"] + ")" + can[i]["Document Title"]+" ("+can[i]["prob"].toString()+")");
+            newli.appendChild(node);
+            newli.setAttribute("value",i);
+            newli.setAttribute("onclick", "show_send(this,\"learn\")");
+            olnode.appendChild(newli);
+        }
+        show_send(olnode.firstChild, "learn");
+    }
+}
+
+function view_pos(){
+    if(!labeled){
+        $.ajax({
+            type: "POST",
+            url: "/susp",
+            async: true,
+            data: { },
+            success: pos_receive
+        });
+    } else {
+        pos_receive(labeled)
+    }
+}
+
+function pos_receive(response) {
+    labeled = response
+    var olnode = document.getElementById("learn_result");
+    while (olnode.firstChild) {
+        olnode.removeChild(olnode.firstChild);
+    }
+    if ("pos" in labeled) {
+        can = labeled.pos;
+
+        for (var i = 0; i < can.length; ++i) {
+
+            var newli = document.createElement("li");
+            var node=document.createTextNode(" (ID: " + can[i]["id"] + ")" + can[i]["Document Title"]+" ("+can[i]["prob"].toString()+")");
+            newli.appendChild(node);
+            newli.setAttribute("value",i);
+            newli.setAttribute("onclick", "show_send(this,\"learn\")");
+            olnode.appendChild(newli);
+        }
+        show_send(olnode.firstChild, "learn");
+    }
+}
+
+function view_neg(){
+    if(!labeled){
+        $.ajax({
+            type: "POST",
+            url: "/susp",
+            async: true,
+            data: { },
+            success: neg_receive
+        });
+    } else {
+        neg_receive(labeled)
+    }
+}
+
+function neg_receive(response) {
+    labeled = response
+    var olnode = document.getElementById("learn_result");
+    while (olnode.firstChild) {
+        olnode.removeChild(olnode.firstChild);
+    }
+    if ("neg" in labeled) {
+        can = labeled.neg;
+
+        for (var i = 0; i < can.length; ++i) {
+
+            var newli = document.createElement("li");
+            try {
+                var node=document.createTextNode(" (ID: " + can[i]["id"] + ")" + can[i]["Document Title"]+" ("+can[i]["prob"].toString()+")");
+            }
+            catch(err) {
+                var node=document.createTextNode(" (ID: " + can[i]["id"] + ")" + can[i]["Document Title"]);
+            }
             newli.appendChild(node);
             newli.setAttribute("value",i);
             newli.setAttribute("onclick", "show_send(this,\"learn\")");

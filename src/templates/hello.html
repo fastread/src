@@ -16,7 +16,8 @@
         <select id="view_options" name="view" style="float:left" onchange="view_selection(this)">
             <option id="uncertain" value="uncertain" onclick="view_uncertain()" selected>Uncertain</option>
             <option id="certain" value="certain" onclick="view_certain()" >Certain</option>
-            <option id="reuse" value="reuse" onclick="view_reuse()" >Reuse</option>
+            <option id="pos" value="labeled pos" onclick="view_pos()" >Labeled Pos</option>
+            <option id="neg" value="labeled neg" onclick="view_neg()" >Labeled Neg</option>
         </select>
         <button onclick="train_send()" style="float:right" disabled> Next </button>
         <button onclick="auto_review()" id="auto" style="float:right" disabled> Auto Review </button>
