@@ -136,5 +136,7 @@ Jun 29, 2017. **v1.2.0** Estimate the number of **Relevant** studies in the pool
 
 Aug 01, 2017. **v1.3.0** Core algorithm updated to utilize both Weighting and aggressive undersampling.
 
-Nov 15, 2017. **v1.4.0** Allow user to change their decision on previous labels. Machine suggestions used to efficiently handle human errors or concept drift.
+Aug 28, 2017. **v1.4.0** Integrated as FAST2.
+
+Nov 15, 2017. **v1.5.0** Allow user to change their decision on previous labels. Machine suggestions used to efficiently handle human errors or concept drift.
  
