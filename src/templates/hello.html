@@ -14,10 +14,10 @@
         <font size="2">Import: </font><input type="file" id="oldFile" onchange="handleOldSelect(this.files)" disabled/>
         <br/>
         <select id="view_options" name="view" style="float:left" onchange="view_selection(this)">
-            <option id="uncertain" value="uncertain" onclick="view_uncertain()" selected>Uncertain</option>
-            <option id="certain" value="certain" onclick="view_certain()" >Certain</option>
-            <option id="pos" value="labeled pos" onclick="view_pos()" >Labeled Pos</option>
-            <option id="neg" value="labeled neg" onclick="view_neg()" >Labeled Neg</option>
+            <option id="uncertain" value="uncertain" onclick="view_uncertain()" title="Uncertainty sampling or random sampling (if no relevant found so far), recommended when #relevant is low (say < 30% of estimated number)." selected>Uncertain</option>
+            <option id="certain" value="certain" onclick="view_certain()" title="Certainty sampling, recommended when #relevant is higher (say > 30% of estimated number)." >Certain</option>
+            <option id="pos" value="labeled pos" onclick="view_pos()" title="Review the studies labeled as Relevant." >Labeled Pos</option>
+            <option id="neg" value="labeled neg" onclick="view_neg()" title="Review the studies labeled as Irrelevant." >Labeled Neg</option>
         </select>
         <button onclick="train_send()" style="float:right" disabled> Next </button>
         <button onclick="auto_review()" id="auto" style="float:right" disabled> Auto Review </button>
