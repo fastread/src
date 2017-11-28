@@ -107,8 +107,20 @@ Exported primary study selection results (e.g. *workspace > coded > Hall.csv* ) 
   - choose from **Relevant**, **Irrelevant**, or **Undetermined** for each study and hit **Submit**.
   - hit **Next** when you want a to review more.
   - statistics are displayed as **Documents Coded: x/y (z)**, where **x** is the number of relevant studies retrieved, **y** is the number of studies reviewed, and **z** is the total number of candidate studies.
-  - **Reuse** uses only the data from current review for training. If **Estimation** is enabled, it is suggested to choose from **Certain** or **Reuse** depending on the probability estimation.
   - keep reviewing studies until you think most relevant ones have been retrieved. (If **Estimation** is enabled, stop when **x** is close to or greater than 0.95 of the estimated number of **Relevant** studies.)
+  
+
+### Better ways to start the review:
+
+Now we allow users to recheck their previously labeled results and change their decisions. Therefore human errors/concept drift can be handled. Model learned so far is also used to suggest which labels are most suspicious. 
+Two options added:
+  - **Labeled Pos**: recheck the studies previously labeled as **Relevant**. Sorted by the level of disagreement between current model prediction and human label.
+  - **Labeled Neg**: recheck the studies previously labeled as **Irrelevant**. Sorted by the level of disagreement between current model prediction and human label.
+  ![](https://github.com/fastread/src/blob/master/tutorial/screenshots/recheck.png?raw=yes)
+It is recommended to recheck the top 10 suspicious labels every 50 studies reviewed.
+  
+
+
 
 
   
@@ -120,8 +132,9 @@ May 14, 2017. **v1.1.0** Features of UPDATE/REUSE are edited to allow FASTREAD i
 
 Jun 29, 2017. **v1.2.0** Estimate the number of **Relevant** studies in the pool. Enabling **Estimation** will slow down the training, but provide the following benefits:
  - number of **Relevant** studies will be estimated, thus helps to decide when to stop; 
- - probability scores will be more accurate;
- - probability scores can then be used to decide whether to choose **Reuse** or **Certain** when Re-Using FASTREAD.
+ - probability scores will be more accurate.
 
 Aug 01, 2017. **v1.3.0** Core algorithm updated to utilize both Weighting and aggressive undersampling.
+
+Nov 15, 2017. **v1.4.0** Allow user to change their decision on previous labels. Machine suggestions used to efficiently handle human errors or concept drift.
  
