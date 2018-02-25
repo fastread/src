@@ -224,14 +224,13 @@ class MAR(object):
             count = 0
             can = []
             sample = []
-            where = 1
             for i, x in enumerate(probs[order]):
                 count = count + x
                 can.append(order[i])
-                if count >= where:
+                if count >= 1:
                     # sample.append(np.random.choice(can,1)[0])
                     sample.append(can[0])
-                    where = where + 1
+                    count = 0
                     can = []
             return sample
 
