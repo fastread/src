@@ -80,11 +80,15 @@ class MAR(object):
     def loadfile(self):
         with open("../workspace/data/" + str(self.filename), "r") as csvfile:
             content = [x for x in csv.reader(csvfile, delimiter=',')]
+        set_trace()
         fields = ["Document Title", "Abstract", "Year", "PDF Link"]
         header = content[0]
         for field in fields:
-            ind = header.index(field)
-            self.body[field] = [c[ind] for c in content[1:]]
+            try:
+                ind = header.index(field)
+                self.body[field] = [c[ind].decode("utf8","ignore") for c in content[1:]]
+            except:
+                self.body[field] = [""]*(len(content) - 1)
         try:
             ind = header.index("label")
             self.body["label"] = [c[ind] for c in content[1:]]
@@ -182,7 +186,7 @@ class MAR(object):
     def preprocess(self):
         ### Combine title and abstract for training ###########
         content = [self.body["Document Title"][index] + " " + self.body["Abstract"][index] for index in
-                   xrange(len(self.body["Document Title"]))]
+                       xrange(len(self.body["Document Title"]))]
         #######################################################
 
         ### Feature selection by tfidf in order to keep vocabulary ###
