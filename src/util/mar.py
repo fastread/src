@@ -557,7 +557,18 @@ class MAR(object):
         plt.rcParams.update(paras)
 
         fig = plt.figure()
-        plt.plot(self.record['x'], self.record["pos"])
+        order = np.argsort(np.array(self.body['time'])[self.labeled])
+        seq = np.array(self.body['code'])[np.array(self.labeled)[order]]
+        counter = 0
+        rec = [0]
+        for s in seq:
+            if s=='yes':
+                counter+=1
+            rec.append(counter)
+        plt.plot(range(len(rec)), rec)
+
+        # plt.plot(self.record['x'], self.record["pos"])
+
         ### estimation ####
         # if self.enable_est:
         #     if self.record["pos"][-1] > int(self.est_num/2) and self.record["pos"][-1] < self.est_num:
