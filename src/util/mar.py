@@ -17,7 +17,6 @@ class MAR(object):
         self.enough = 30
         self.kept=50
         self.atleast=100
-        self.enable_est=False
 
 
     def create(self,filename):
@@ -35,7 +34,7 @@ class MAR(object):
 
         try:
             ## if model already exists, load it ##
-            return self.load()
+            self = self.load()
         except:
             ## otherwise read from file ##
             try:
@@ -45,6 +44,7 @@ class MAR(object):
             except:
                 ## cannot find file in workspace ##
                 self.flag=False
+        self.enable_est=False
         return self
 
     ### Use previous knowledge, labeled only
