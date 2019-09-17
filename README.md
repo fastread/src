@@ -9,14 +9,29 @@ Latest Versions:
 
 Cite as:
 ``` 
-@misc{zhe_yu_2017_837861,
-  author       = {Zhe Yu and
-                  Tim Menzies},
-  title        = {fastread/src: Core Algorithm Update},
-  month        = aug,
-  year         = 2017,
-  doi          = {10.5281/zenodo.837861},
-  url          = {https://doi.org/10.5281/zenodo.837861}
+@article{Yu2019,
+title = "FAST2: An intelligent assistant for finding relevant papers",
+journal = "Expert Systems with Applications",
+volume = "120",
+pages = "57 - 71",
+year = "2019",
+author = "Zhe Yu and Tim Menzies",
+keywords = "Active learning, Literature reviews, Text mining, Semi-supervised learning, Relevance feedback, Selection process"
+}
+
+
+@Article{Yu2018,
+author="Yu, Zhe
+and Kraft, Nicholas A.
+and Menzies, Tim",
+title="Finding better active learners for faster literature reviews",
+journal="Empirical Software Engineering",
+year="2018",
+month="Mar",
+day="07",
+issn="1573-7616",
+doi="10.1007/s10664-017-9587-0",
+url="https://doi.org/10.1007/s10664-017-9587-0"
 }
 ```
 
