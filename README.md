@@ -125,7 +125,7 @@ Exported primary study selection results (e.g. *workspace > coded > Hall.csv* ) 
   - keep reviewing studies until you think most relevant ones have been retrieved. (If **Estimation** is enabled, stop when **x** is close to or greater than 0.95 of the estimated number of **Relevant** studies.)
   
 
-### Better ways to start the review:
+### Double checking previous labels:
 
 Now we allow users to recheck their previously labeled results and change their decisions. Therefore human errors/concept drift can be handled. Model learned so far is also used to suggest which labels are most suspicious. 
 Two options added:
