@@ -64,6 +64,8 @@ Use FASTREAD
 2. Load the data:
   + Click **Target: Choose File** button to select your csv file in *workspace > data*. Wait a few seconds for the first time. Once the data is successfully loaded, you will see the following:
   ![](https://github.com/fastread/src/blob/master/tutorial/screenshots/load.png?raw=yes)
+
+2.5. [Better ways to start the review](#better-ways-to-start-the-review)
   
 3. Begin reviewing studies:
   - Choose from **Relevant**, **Irrelevant**, or **Undetermined** for each study and hit **Submit**.
