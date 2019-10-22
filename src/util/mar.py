@@ -17,6 +17,7 @@ class MAR(object):
         self.enough = 30
         self.kept=50
         self.atleast=100
+        self.enable_est=False
 
 
     def create(self,filename):
@@ -34,7 +35,7 @@ class MAR(object):
 
         try:
             ## if model already exists, load it ##
-            self = self.load()
+            return self.load()
         except:
             ## otherwise read from file ##
             try:
@@ -44,7 +45,6 @@ class MAR(object):
             except:
                 ## cannot find file in workspace ##
                 self.flag=False
-        self.enable_est=False
         return self
 
     ### Use previous knowledge, labeled only
@@ -80,7 +80,7 @@ class MAR(object):
     def loadfile(self):
         with open("../workspace/data/" + str(self.filename), "r") as csvfile:
             content = [x for x in csv.reader(csvfile, delimiter=',')]
-
+        set_trace()
         fields = ["Document Title", "Abstract", "Year", "PDF Link"]
         header = content[0]
         for field in fields:
@@ -223,8 +223,6 @@ class MAR(object):
         from sklearn import linear_model
         import random
 
-
-
         def prob_sample(probs):
             order = np.argsort(probs)[::-1]
             count = 0
@@ -242,10 +240,6 @@ class MAR(object):
 
 
 
-
-
-
-
         poses = np.where(np.array(self.body['code']) == "yes")[0]
         negs = np.where(np.array(self.body['code']) == "no")[0]
 
@@ -257,7 +251,6 @@ class MAR(object):
         # prob = clf.predict_proba(self.csr_mat)[:,:1]
         prob1 = clf.decision_function(self.csr_mat)
         prob = np.array([[x] for x in prob1])
-        # prob = self.csr_mat
 
 
         y = np.array([1 if x == 'yes' else 0 for x in self.body['code']])
@@ -273,7 +266,7 @@ class MAR(object):
 
         lifes = 1
         life = lifes
-
+        pos_num = Counter(y0)[1]
 
         while (True):
             C = Counter(y[all])[1]/ num_neg
@@ -303,14 +296,11 @@ class MAR(object):
             else:
                 life = lifes
             pos_num_last = pos_num
-
-
         esty = pos_num - self.last_pos
         pre = es.predict_proba(prob)[:, pos_at]
 
+
         return esty, pre
-
-
 
 
     ## Train model ##
@@ -323,7 +313,7 @@ class MAR(object):
         decayed = list(left) + list(negs)
         unlabeled = np.where(np.array(self.body['code']) == "undetermined")[0]
         try:
-            unlabeled = np.random.choice(unlabeled,size=np.max((len(decayed),2*len(left),self.atleast)),replace=False)
+            unlabeled = np.random.choice(unlabeled,size=np.max((len(left),self.atleast)),replace=False)
         except:
             pass
 
@@ -557,18 +547,7 @@ class MAR(object):
         plt.rcParams.update(paras)
 
         fig = plt.figure()
-        order = np.argsort(np.array(self.body['time'])[self.labeled])
-        seq = np.array(self.body['code'])[np.array(self.labeled)[order]]
-        counter = 0
-        rec = [0]
-        for s in seq:
-            if s=='yes':
-                counter+=1
-            rec.append(counter)
-        plt.plot(range(len(rec)), rec)
-
-        # plt.plot(self.record['x'], self.record["pos"])
-
+        plt.plot(self.record['x'], self.record["pos"])
         ### estimation ####
         # if self.enable_est:
         #     if self.record["pos"][-1] > int(self.est_num/2) and self.record["pos"][-1] < self.est_num:

@@ -9,29 +9,14 @@ Latest Versions:
 
 Cite as:
 ``` 
-@article{Yu2019,
-title = "FAST2: An intelligent assistant for finding relevant papers",
-journal = "Expert Systems with Applications",
-volume = "120",
-pages = "57 - 71",
-year = "2019",
-author = "Zhe Yu and Tim Menzies",
-keywords = "Active learning, Literature reviews, Text mining, Semi-supervised learning, Relevance feedback, Selection process"
-}
-
-
-@Article{Yu2018,
-author="Yu, Zhe
-and Kraft, Nicholas A.
-and Menzies, Tim",
-title="Finding better active learners for faster literature reviews",
-journal="Empirical Software Engineering",
-year="2018",
-month="Mar",
-day="07",
-issn="1573-7616",
-doi="10.1007/s10664-017-9587-0",
-url="https://doi.org/10.1007/s10664-017-9587-0"
+@misc{zhe_yu_2017_837861,
+  author       = {Zhe Yu and
+                  Tim Menzies},
+  title        = {fastread/src: Core Algorithm Update},
+  month        = aug,
+  year         = 2017,
+  doi          = {10.5281/zenodo.837861},
+  url          = {https://doi.org/10.5281/zenodo.837861}
 }
 ```
 
@@ -42,7 +27,7 @@ Setting up FASTREAD
   + We use anaconda by continuum.io (see [Why?](https://www.continuum.io/why-anaconda))
     - We won't need the entire distribution. [Download](http://conda.pydata.org/miniconda.html) a Python 2.7 version & install a minimal version of anaconda.
   + Make sure you select add to PATH during install.
-  + Next, run `setup.bat`. This will install all the dependencies needed to run the tool. Or:
+  + Next, run `setup.bat`. This will install all the dependencies needed to run the tool.
   + If the above does not work well. Remember you only need a Python 2.7 and three packages listed in `requirements.txt` installed. So `pip install -r requirements.txt` will work.
 
 2. Running script:
@@ -64,8 +49,6 @@ Use FASTREAD
 2. Load the data:
   + Click **Target: Choose File** button to select your csv file in *workspace > data*. Wait a few seconds for the first time. Once the data is successfully loaded, you will see the following:
   ![](https://github.com/fastread/src/blob/master/tutorial/screenshots/load.png?raw=yes)
-
-2.5. [Better ways to start the review](#better-ways-to-start-the-review)
   
 3. Begin reviewing studies:
   - Choose from **Relevant**, **Irrelevant**, or **Undetermined** for each study and hit **Submit**.
@@ -127,7 +110,7 @@ Exported primary study selection results (e.g. *workspace > coded > Hall.csv* ) 
   - keep reviewing studies until you think most relevant ones have been retrieved. (If **Estimation** is enabled, stop when **x** is close to or greater than 0.95 of the estimated number of **Relevant** studies.)
   
 
-### Double checking previous labels:
+### Better ways to start the review:
 
 Now we allow users to recheck their previously labeled results and change their decisions. Therefore human errors/concept drift can be handled. Model learned so far is also used to suggest which labels are most suspicious. 
 Two options added:
