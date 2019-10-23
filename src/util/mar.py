@@ -508,6 +508,8 @@ class MAR(object):
     ## Get certain ##
     def certain(self,clf):
         pos_at = list(clf.classes_).index("yes")
+        if len(self.pool)==0:
+            return [],[]
         prob = clf.predict_proba(self.csr_mat[self.pool])[:,pos_at]
         order = np.argsort(prob)[::-1][:self.step]
         return np.array(self.pool)[order],np.array(prob)[order]
@@ -515,6 +517,8 @@ class MAR(object):
     ## Get uncertain ##
     def uncertain(self,clf):
         pos_at = list(clf.classes_).index("yes")
+        if len(self.pool)==0:
+            return [],[]
         prob = clf.predict_proba(self.csr_mat[self.pool])[:, pos_at]
         train_dist = clf.decision_function(self.csr_mat[self.pool])
         order = np.argsort(np.abs(train_dist))[:self.step]  ## uncertainty sampling by distance to decision plane
