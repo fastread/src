@@ -1,0 +1,154 @@
+Topic: CD012768 
+
+Title: Xpert® MTB/RIF assay for extrapulmonary tuberculosis and rifampicin resistance 
+
+Query: 
+Mycobacterium tuberculosis/
+Tuberculosis/ or "Tuberculosis, Multidrug-Resistant"/ or Extensively Drug-Resistant Tuberculosis/
+(Tuberculosis or MDR-TB or XDR-TB or "Multidrug Resistant Tuberculosis" or "Extensively Drug Resistant Tuberculosis" or tuberculous).ti. ab .
+(extrapulmonary or extra-pulmonary or EPTB).ti. ab .
+(lymphadenitis or disseminated or miliary or pleur* or skeletal or spine or mening* or intracranial or intra-ocular or ocular or abdominal or splenic or genitourinary or pericardial).ti. ab .
+"Tuberculosis, Central Nervous System"/ or "Tuberculosis, Urogenital"/ or "Tuberculosis, Splenic"/ or "Tuberculosis, Spinal"/ or "Tuberculosis, Renal"/ or "Tuberculosis, Pleural"/ or "Tuberculosis, Osteoarticular"/ or "Tuberculosis, Oral"/ or "Tuberculosis, Ocular"/ or "Tuberculosis, Meningeal"/ or "Tuberculosis, Lymph Node"/ or "Tuberculosis, Laryngeal"/ or "Tuberculosis, Hepatic"/ or "Tuberculosis, Gastrointestinal"/ or "Tuberculosis, Female Genital"/ or "Tuberculosis, Endocrine"/ or "Tuberculosis, Cutaneous"/ or "Tuberculosis, Cardiovascular"/ or Tuberculosis, Miliary/ or Tuberculosis, Male Genital/
+1 or 2 or 3
+4 or 5
+7 and 8
+9 or 6
+Xpert*.ti. ab .
+(GeneXpert or cepheid).ti.ab .
+(near* patient or near-patient).ti.ab
+11 or 12 or 13
+10 and 14
+limit 15 to ED=19460101-20170807 
+
+Pids: 
+    22815718 
+    27286562 
+    22381459 
+    21396219 
+    24167451 
+    27366339 
+    26311855 
+    26071438 
+    25960097 
+    25538982 
+    23827859 
+    25574911 
+    21943862 
+    25051491 
+    22474483 
+    28281441 
+    25519795 
+    25014250 
+    23580687 
+    18818267 
+    26785988 
+    21849695 
+    25599808 
+    25339389 
+    26775391 
+    24503504 
+    23044453 
+    27268404 
+    24803060 
+    24622091 
+    21956978 
+    27758992 
+    25271230 
+    24567181 
+    26964807 
+    21998430 
+    24708530 
+    21913741 
+    21677069 
+    24931451 
+    27913043 
+    27866961 
+    27829072 
+    25578256 
+    25519794 
+    28081227 
+    26894283 
+    26459535 
+    25361020 
+    26004172 
+    22241741 
+    26366871 
+    28057041 
+    24693467 
+    25686133 
+    26922570 
+    26779470 
+    25634205 
+    25686134 
+    26763963 
+    25809761 
+    28057604 
+    22553234 
+    22162564 
+    26735769 
+    24167452 
+    26063865 
+    24944716 
+    28425873 
+    27175492 
+    24197880 
+    25056328 
+    26966284 
+    26240094 
+    26167828 
+    21504402 
+    25271229 
+    26671654 
+    27430924 
+    28292091 
+    22966426 
+    25888462 
+    26818675 
+    23460004 
+    26614204 
+    21958145 
+    26600434 
+    26950547 
+    27163343 
+    24166585 
+    24349151 
+    27622628 
+    26469691 
+    25878624 
+    27660225 
+    28516818 
+    21653775 
+    24942470 
+    26917794 
+    28086955 
+    23678063 
+    23750732 
+    27293838 
+    24696113 
+    24592937 
+    26169235 
+    24922084 
+    25063241 
+    24388082 
+    23660698 
+    22668953 
+    21593262 
+    21270230 
+    25274923 
+    21880965 
+    25122163 
+    25519782 
+    23986128 
+    26970721 
+    24819260 
+    25385864 
+    22734954 
+    27837932 
+    25767518 
+    23900990 
+    26654321 
+    25765217 
+    27143080 
+    26703940 
+    25686186 
+    25686127 
