@@ -4,8 +4,11 @@ import xml.etree.ElementTree as ET
 aux = 0
 count = 0
 index = 0
+topicN = 'CD007394'
+list_label = []
 topic = "DTA/topics/CD007394"  #topico que vai ser escolhido
 linha = ['Document Title','Abstract','Year','PDF Link','label']
+arq_content = open("DTA/qrels/full.train.dta.content.2019.qrels")
 arq_topic = open(topic,"r")
 for line in arq_topic:
     if 'Pids:' in line :
@@ -22,7 +25,12 @@ for line in arq_topic:
         list_of_pids.append([])
         count = 0
 arq_topic.close()
+for line in arq_content:
+    if topicN in line:
+        line = line.split(' ')
+        list_label.append(line[3][0:1])
 aux = 0
+j=0
 # print (list_of_pids)
 with open('output.csv', 'w') as file:
     writer = csv.writer(file)
@@ -37,6 +45,7 @@ with open('output.csv', 'w') as file:
         wtr = 0
         aux2 = ''
         for child in root.iter(filtro):
+            
             # print(child.tag,child.text)   
             # se colocar esse print de cima vai ver o conteudo do xml, ai pode ver que tem abstracts faltando
             if child.tag == 'ArticleTitle':
@@ -61,7 +70,14 @@ with open('output.csv', 'w') as file:
                     row[0] = row[0].encode('utf-8')
                     row[2] = row[2].encode('utf-8')
                     row[3] = child.text
-                    writer.writerow(row)
-                    row = ['','','','','0']
-                    wtr = 1
+                    row[4] = list_label[j]
+                    j = j+1
+  
+                    if row[1] == '' :
+                        row = ['','','','','0']
+                        wtr = 1
+                    else: 
+                        writer.writerow(row)
+                        row = ['','','','','0']
+                        wtr = 1
 file.close()
