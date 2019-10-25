@@ -29,6 +29,7 @@ for line in arq_content:
     if topicN in line:
         line = line.split(' ')
         list_label.append(line[3][0:1])
+arq_content.close()
 aux = 0
 j=0
 # print (list_of_pids)
@@ -45,7 +46,6 @@ with open('output.csv', 'w') as file:
         wtr = 0
         aux2 = ''
         for child in root.iter(filtro):
-            
             # print(child.tag,child.text)   
             # se colocar esse print de cima vai ver o conteudo do xml, ai pode ver que tem abstracts faltando
             if child.tag == 'ArticleTitle':
@@ -72,7 +72,6 @@ with open('output.csv', 'w') as file:
                     row[3] = child.text
                     row[4] = list_label[j]
                     j = j+1
-  
                     if row[1] == '' :
                         row = ['','','','','0']
                         wtr = 1
