@@ -143,26 +143,26 @@ def calcular(valores=None, calculos=None):
             calculos['variancia'] = variancia(valores)
             calculos['desvio_padrao'] = desvio_padrao(valores)
 
-suffix="_fast)_fast_RECALLAT"
-filesInput=["Wahono.csv", "Hall.csv","Radjenovic.csv","Kitchenham.csv" ]
-filesOutput=["saidaWah"+suffix , "saidaHal"+suffix,"saidaRad"+suffix,"saidaKit"+suffix]
-query=["defect prediction", "defect prediction", "defect prediction metrics", "literature review"]
+suffix="_fast)_fast_KNEE"
+filesInput=["medicalDocs.csv"]
+filesOutput=["saidaMedical"+suffix]
+query=["pulmonary aspergillosis"]
 
 #read=BM25("Kitchenham.csv", "defect prediction")
-for j in range(3,-1,-1):
+for j in range(1):
     filew=open(filesOutput[j],"w") 
     queryw=query[j]
     media_recal=0
     media_precision=0
     media_posit=0
     media_all=0
-    rangevalue=3
+    rangevalue=10
     recalList=[]
     precisionList=[]
     positList=[]
     allList=[]
     for i in range (rangevalue):
-        read=BM25(filesInput[j], i, 'est', queryw,0.95,1,30,j)
+        read=BM25(filesInput[j], i, 'knee', queryw,0.95,1,30,j)
         filew.write(("posit "+ str(read.record['pos'][-1])+ " all "+ str(read.record['x'][-1])) +"\n")
         filew.write(str(read.get_numbers())+"\n")
         filew.write(("recall:"+ str(read.record['pos'][-1]/float(read.get_allpos()))+ " precision " + str(read.record['pos'][-1]/float(read.record['x'][-1])))+"\n")

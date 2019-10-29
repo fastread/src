@@ -33,7 +33,7 @@ arq_content.close()
 aux = 0
 j=0
 # print (list_of_pids)
-with open('output.csv', 'w') as file:
+with open('../workspace/data/medicalDocs.csv', 'w') as file:
     writer = csv.writer(file)
     writer.writerow(linha)
     for i in range(len(list_of_pids)):
@@ -70,7 +70,10 @@ with open('output.csv', 'w') as file:
                     row[0] = row[0].encode('utf-8')
                     row[2] = row[2].encode('utf-8')
                     row[3] = child.text
-                    row[4] = list_label[j]
+                    if list_label[j] == '0':
+                        row[4] = 'no'
+                    else:
+                        row[4] = 'yes'
                     j = j+1
                     if row[1] == '' :
                         row = ['','','','','0']
