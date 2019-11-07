@@ -1,6 +1,8 @@
 from mar import MAR
 import numpy as np
 import math, os, sys
+import os
+
 
 numberrel=[62,104,48,45]
 
@@ -144,10 +146,29 @@ def calcular(valores=None, calculos=None):
             calculos['desvio_padrao'] = desvio_padrao(valores)
 
 suffix="_fast)_fast_KNEE"
-filesInput=["medicalDocs.csv"]
-filesOutput=["saidaMedical"+suffix]
-query=["pulmonary aspergillosis"]
-
+pasta = "DTA/topics/"
+caminhos = [os.path.join(pasta, nome) for nome in os.listdir(pasta)]
+arquivos = [arq for arq in caminhos if os.path.isfile(arq)]
+query=[]
+for topic in arquivos:
+    # auxTopic = topic.split('/')
+    # auxTopic = auxTopic[3]
+    arq_topic = open(topic,"r")
+    for line in arq_topic:
+        if 'Title:' in line:
+            line = line.lstrip('Title: ')
+            line = line.rstrip(' \n')
+            line = unicode(line, 'utf-8')
+            line = line.lower()
+            line = line.encode('utf-8')
+            query.append(line)
+print(query)
+pasta = "../workspace/data/"
+caminhos = [os.path.join(pasta, nome) for nome in os.listdir(pasta)]
+arquivos = [arq.split('/')[3] for arq in caminhos if os.path.isfile(arq)]
+print(arquivos)
+filesInput=arquivos
+filesOutput=arquivos
 #read=BM25("Kitchenham.csv", "defect prediction")
 for j in range(1):
     filew=open(filesOutput[j],"w") 
