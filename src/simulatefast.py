@@ -145,39 +145,44 @@ def calcular(valores=None, calculos=None):
             calculos['variancia'] = variancia(valores)
             calculos['desvio_padrao'] = desvio_padrao(valores)
 
+import nltk
+# nltk.download() se precisar baixar o nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+stop_words = set(stopwords.words('english'))
+simbols = ['(',')']
 suffix="_fast)_fast_KNEE"
 pasta = "DTA/topics/"
 caminhos = [os.path.join(pasta, nome) for nome in os.listdir(pasta)]
 arquivos = [arq for arq in caminhos if os.path.isfile(arq)]
-query=[]
-for topic in arquivos:
-    # auxTopic = topic.split('/')
-    # auxTopic = auxTopic[3]
-    arq_topic = open(topic,"r")
-    for line in arq_topic:
-        if 'Title:' in line:
-            line = line.lstrip('Title: ')
-            line = line.rstrip(' \n')
-            line = unicode(line, 'utf-8')
-            line = line.lower()
-            line = line.encode('utf-8')
-            query.append(line)
-print(query)
-pasta = "../workspace/data/"
-caminhos = [os.path.join(pasta, nome) for nome in os.listdir(pasta)]
-arquivos = [arq.split('/')[3] for arq in caminhos if os.path.isfile(arq)]
-print(arquivos)
-filesInput=arquivos
-filesOutput=arquivos
-#read=BM25("Kitchenham.csv", "defect prediction")
-for j in range(1):
+# query=[]
+# for topic in arquivos:
+#     arq_topic = open(topic,"r")
+#     for line in arq_topic:
+#         if 'Title:' in line:
+#             line = line.lstrip('Title: ')
+#             line = line.rstrip(' \n')
+#             line = unicode(line, 'utf-8')
+#             line = line.lower()
+#             line = line.encode('utf-8')
+#             word_tokens = word_tokenize(line) 
+#             filtered_sentence = [w for w in word_tokens if not w in stop_words and not w in simbols]
+#             line = ' '.join(filtered_sentence)
+#             query.append(line)
+# arquivos = [arq.split('/')[2]+'.csv' for arq in arquivos]
+# filesInput=arquivos
+# filesOutput=[a.rstrip('.csv') for a in arquivos]
+filesInput = ['CD012669.csv']
+filesOutput = ['CD012669']
+query = ['point care ultrasonography diagnosing thoracoabdominal injuries patients blunt trauma']
+for j in range(len(arquivos)):
     filew=open(filesOutput[j],"w") 
     queryw=query[j]
     media_recal=0
     media_precision=0
     media_posit=0
     media_all=0
-    rangevalue=10
+    rangevalue=1
     recalList=[]
     precisionList=[]
     positList=[]
