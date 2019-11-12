@@ -38,6 +38,8 @@ for topic in arquivos:
             if line[3][0:1] == '1':
                 list_label.append(line[2])
     arq_content.close()
+    if len(list_label) == 0:
+        continue
     aux = 0
     j=0
     # print (list_of_pids)
