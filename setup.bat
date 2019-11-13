@@ -1,1 +1,1 @@
-conda install -y scikit-learn matplotlib flask
+conda install -y scikit-learn matplotlib flask pandas

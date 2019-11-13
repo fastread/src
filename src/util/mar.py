@@ -9,6 +9,7 @@ from sklearn import svm
 import matplotlib.pyplot as plt
 import time
 import os
+import pandas as pd
 
 class MAR(object):
     def __init__(self):
@@ -78,38 +79,21 @@ class MAR(object):
 
 
     def loadfile(self):
-        with open("../workspace/data/" + str(self.filename), "r") as csvfile:
-            content = [x for x in csv.reader(csvfile, delimiter=',')]
-
+        self.body = pd.read_csv("../workspace/data/" + str(self.filename))
         fields = ["Document Title", "Abstract", "Year", "PDF Link"]
-        header = content[0]
+        columns = self.body.columns
+        n = len(self.body)
         for field in fields:
-            try:
-                ind = header.index(field)
-                self.body[field] = [c[ind].decode("utf8","ignore") for c in content[1:]]
-            except:
-                self.body[field] = [""]*(len(content) - 1)
-        try:
-            ind = header.index("label")
-            self.body["label"] = [c[ind] for c in content[1:]]
-        except:
-            self.hasLabel=False
-            self.body["label"] = ["unknown"] * (len(content) - 1)
-        try:
-            ind = header.index("code")
-            self.body["code"] = [c[ind] for c in content[1:]]
-        except:
-            self.body["code"]=['undetermined']*(len(content) - 1)
-        try:
-            ind = header.index("time")
-            self.body["time"] = [c[ind] for c in content[1:]]
-        except:
-            self.body["time"]=[0]*(len(content) - 1)
-        try:
-            ind = header.index("fixed")
-            self.body["fixed"] = [c[ind] for c in content[1:]]
-        except:
-            self.body["fixed"]=[0]*(len(content) - 1)
+            if field not in columns:
+                self.body[field] = [""]*n
+        if "label" not in columns:
+            self.body["label"] = ["unknown"]*n
+        if "code" not in columns:
+            self.body["code"] = ["undetermined"]*n
+        if "time" not in columns:
+            self.body["time"] = [0]*n
+        if "fixed" not in columns:
+            self.body["fixed"] = [0]*n
         return
 
     def create_lda(self,filename):
@@ -185,8 +169,7 @@ class MAR(object):
 
     def preprocess(self):
         ### Combine title and abstract for training ###########
-        content = [self.body["Document Title"][index] + " " + self.body["Abstract"][index] for index in
-                       xrange(len(self.body["Document Title"]))]
+        content = [self.body["Document Title"][index].decode("utf8","ignore") + " " + self.body["Abstract"][index].decode("utf8","ignore") for index in xrange(len(self.body))]
         #######################################################
 
         ### Feature selection by tfidf in order to keep vocabulary ###
