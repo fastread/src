@@ -169,6 +169,7 @@ for topic in arquivos:
             filtered_sentence = [w for w in word_tokens if not w in stop_words and not w in simbols]
             line = ' '.join(filtered_sentence)
             query.append(line)
+    arq_topic.close()
 arquivos = [arq.split('/')[2]+'.csv' for arq in arquivos]
 filesInput=arquivos
 filesOutput=[a.rstrip('.csv') for a in arquivos]

@@ -1,0 +1,10 @@
+posit 40 all 200
+(40, 160, 752)
+recall:0.975609756098 precision 0.2
+recall calculos['soma'] 0.975609756098 calculos['media'] 0.975609756098 calculos['variancia'] 0.0 calculos['desvio_padrao'] 0.0
+precision calculos['soma'] 0.2 calculos['media'] 0.2 calculos['variancia'] 0.0 calculos['desvio_padrao'] 0.0
+allList calculos['soma'] 200 calculos['media'] 200.0 calculos['variancia'] 0.0 calculos['desvio_padrao'] 0.0
+0.975609756098
+0.2
+40.0
+200.0
