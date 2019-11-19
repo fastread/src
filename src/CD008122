@@ -1,10 +1,37 @@
 posit 54 all 440
 (54, 386, 1763)
 recall:1.0 precision 0.122727272727
-recall calculos['soma'] 1.0 calculos['media'] 1.0 calculos['variancia'] 0.0 calculos['desvio_padrao'] 0.0
-precision calculos['soma'] 0.122727272727 calculos['media'] 0.122727272727 calculos['variancia'] 0.0 calculos['desvio_padrao'] 0.0
-allList calculos['soma'] 440 calculos['media'] 440.0 calculos['variancia'] 0.0 calculos['desvio_padrao'] 0.0
+posit 54 all 350
+(54, 296, 1763)
+recall:1.0 precision 0.154285714286
+posit 54 all 380
+(54, 326, 1763)
+recall:1.0 precision 0.142105263158
+posit 54 all 410
+(54, 356, 1763)
+recall:1.0 precision 0.131707317073
+posit 54 all 410
+(54, 356, 1763)
+recall:1.0 precision 0.131707317073
+posit 54 all 350
+(54, 296, 1763)
+recall:1.0 precision 0.154285714286
+posit 54 all 390
+(54, 336, 1763)
+recall:1.0 precision 0.138461538462
+posit 54 all 390
+(54, 336, 1763)
+recall:1.0 precision 0.138461538462
+posit 54 all 320
+(54, 266, 1763)
+recall:1.0 precision 0.16875
+posit 54 all 480
+(54, 426, 1763)
+recall:1.0 precision 0.1125
+recall calculos['soma'] 10.0 calculos['media'] 1.0 calculos['variancia'] 0.0 calculos['desvio_padrao'] 0.0
+precision calculos['soma'] 1.39499167553 calculos['media'] 0.139499167553 calculos['variancia'] 0.000243351758236 calculos['desvio_padrao'] 0.0155997358387
+allList calculos['soma'] 3920 calculos['media'] 392.0 calculos['variancia'] 1956.0 calculos['desvio_padrao'] 44.226688775
 1.0
-0.122727272727
+0.139499167553
 54.0
-440.0
+392.0

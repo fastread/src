@@ -183,7 +183,7 @@ for j in range(len(arquivos)):
     media_precision=0
     media_posit=0
     media_all=0
-    rangevalue=1
+    rangevalue=10
     recalList=[]
     precisionList=[]
     positList=[]
