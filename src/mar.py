@@ -361,10 +361,8 @@ class MAR(object):
                 self.est_num, self.est = self.estimate_curve(clf, reuse=True, num_neg=len(sample)-len(left))
             else:
                 self.est_num, self.est = self.estimate_curve(clf, reuse=False, num_neg=len(sample)-len(left))
-            #print(uncertain_id, self.est[uncertain_id], certain_id, self.est[certain_id], clf)
             return uncertain_id, self.est[uncertain_id], certain_id, self.est[certain_id], clf
         else:
-            #print(uncertain_id, self.est[uncertain_id], certain_id, self.est[certain_id], clf)
             return uncertain_id, uncertain_prob, certain_id, certain_prob, clf
 
     ## reuse

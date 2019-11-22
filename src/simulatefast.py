@@ -151,7 +151,6 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 stop_words = set(stopwords.words('english'))
 simbols = ['(',')','-']
-suffix="_fast)_fast_KNEE"
 pasta = "DTA/topics/"
 caminhos = [os.path.join(pasta, nome) for nome in os.listdir(pasta)]
 arquivos = [arq for arq in caminhos if os.path.isfile(arq)]
@@ -173,10 +172,10 @@ for topic in arquivos:
 arquivos = [arq.split('/')[2]+'.csv' for arq in arquivos]
 filesInput=arquivos
 filesOutput=[a.rstrip('.csv') for a in arquivos]
-# filesInput = ['CD012669.csv']
-# filesOutput = ['CD012669']
-# query = ['point care ultrasonography diagnosing thoracoabdominal injuries patients blunt trauma']
-for j in range(len(arquivos)):
+# filesInput = ['CD011431.csv']
+# filesOutput = ['CD011431']
+# query = ['rapid diagnostic tests diagnosing uncomplicated falciparum plasmodium vivax malaria endemic countries']
+for j in range(1):
     filew=open(filesOutput[j],"w") 
     queryw=query[j]
     media_recal=0
@@ -189,7 +188,7 @@ for j in range(len(arquivos)):
     positList=[]
     allList=[]
     for i in range (rangevalue):
-        read=BM25(filesInput[j], i, 'knee', queryw,0.95,1,30,j)
+        read=BM25(filesInput[j], i, 'est', queryw,0.95,1,30,j)
         filew.write(("posit "+ str(read.record['pos'][-1])+ " all "+ str(read.record['x'][-1])) +"\n")
         filew.write(str(read.get_numbers())+"\n")
         filew.write(("recall:"+ str(read.record['pos'][-1]/float(read.get_allpos()))+ " precision " + str(read.record['pos'][-1]/float(read.record['x'][-1])))+"\n")
