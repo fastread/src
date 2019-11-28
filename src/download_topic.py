@@ -1,8 +1,9 @@
+#Código para download e escrita dos Csv's de cada topico de 2019(apenas o subset)
 import requests
 import csv
 import xml.etree.ElementTree as ET
 import os
-pasta = "DTA/topics/"
+pasta = "DTA_2019/topics/"
 caminhos = [os.path.join(pasta, nome) for nome in os.listdir(pasta)]
 arquivos = [arq for arq in caminhos if os.path.isfile(arq)]
 for topic in arquivos:
@@ -14,7 +15,7 @@ for topic in arquivos:
     # topicN = 'CD007394'
     list_label = []
     linha = ['Document Title','Abstract','Year','PDF Link','label']
-    arq_content = open("DTA/qrels/full.train.dta.content.2019.qrels")
+    arq_content = open("DTA_2019/qrels/full.train.dta.content.2019.qrels")
     arq_topic = open(topic,"r")
     # with open(nomeCSV, 'w') as file:     fazer isso pra gerar todos os titulos de topicos em um arquvio de texto
     for line in arq_topic:
@@ -79,13 +80,6 @@ for topic in arquivos:
                     row[2] = child.text
                 elif child.tag == 'ArticleId':
                     if wtr == 0:
-#                           File "download_topic.py", line 61, in <module>
-#     if ';' in child.text:
-# TypeError: argument of type 'NoneType' is not iterable
-# erro
-                        # row[1] = row[1].encode('utf-8')
-                        # row[0] = row[0].decode('utf-8')
-                        # row[2] = row[2].encode('utf-8')
                         row[3] = child.text
                         if row[3] not in list_label:
                             row[4] = 'no'
