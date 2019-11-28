@@ -59,7 +59,6 @@ for j in range(len(list_topicN)):
             payload = {'db': 'pubmed', 'id': list_of_pids[i], 'rettype': 'xml', 'retmode': 'xml'}
             r = requests.get('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?', params=payload,stream=True)
             tree =  ET.ElementTree(ET.fromstring(r.content))
-            print('Foi')
             root = tree.getroot()
             filtro = "*"
             row = ['','','','','0']
