@@ -157,7 +157,8 @@ class MAR(object):
 
     def export(self):
         fields = ["Document Title", "Abstract", "Year", "PDF Link", "label", "code","time"]
-        with open("../workspace/coded/" + str(self.name) + ".csv", "wb") as csvfile:
+        with open("../workspace/coded/" + str(self.name) + ".csv", "w") as csvfile:
+            set_trace()
             csvwriter = csv.writer(csvfile, delimiter=',')
             csvwriter.writerow(fields)
             ## sort before export
@@ -168,6 +169,8 @@ class MAR(object):
             ##
             for ind in yes+no+und:
                 csvwriter.writerow([self.body[field][ind] for field in fields])
+
+
         return
 
     def preprocess(self):
