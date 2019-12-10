@@ -1,5 +1,8 @@
 from __future__ import print_function, division
-import pickle
+try:
+    import cPickle as pickle
+except:
+    import pickle
 from pdb import set_trace
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -79,7 +82,7 @@ class MAR(object):
 
 
     def loadfile(self):
-        self.body = pd.read_csv("../workspace/data/" + str(self.filename))
+        self.body = pd.read_csv("../workspace/data/" + str(self.filename),encoding='latin-1')
         fields = ["Document Title", "Abstract", "Year", "PDF Link"]
         columns = self.body.columns
         n = len(self.body)
@@ -132,7 +135,7 @@ class MAR(object):
     def export_feature(self):
         with open("../workspace/coded/feature_" + str(self.name) + ".csv", "wb") as csvfile:
             csvwriter = csv.writer(csvfile, delimiter=',')
-            for i in xrange(self.csr_mat.shape[0]):
+            for i in range(self.csr_mat.shape[0]):
                 for j in range(self.csr_mat.indptr[i],self.csr_mat.indptr[i+1]):
                     csvwriter.writerow([i+1,self.csr_mat.indices[j]+1,self.csr_mat.data[j]])
         return
@@ -169,16 +172,18 @@ class MAR(object):
 
     def preprocess(self):
         ### Combine title and abstract for training ###########
-        content = [self.body["Document Title"][index].decode("utf8","ignore") + " " + self.body["Abstract"][index].decode("utf8","ignore") for index in xrange(len(self.body))]
+        content = [self.body["Document Title"][index] + " " + self.body["Abstract"][index] for index in range(len(self.body))]
         #######################################################
 
         ### Feature selection by tfidf in order to keep vocabulary ###
         tfidfer = TfidfVectorizer(lowercase=True, stop_words="english", norm=None, use_idf=True, smooth_idf=False,
                                 sublinear_tf=False,decode_error="ignore")
         tfidf = tfidfer.fit_transform(content)
+
         weight = tfidf.sum(axis=0).tolist()[0]
         kept = np.argsort(weight)[-self.fea_num:]
-        self.voc = np.array(tfidfer.vocabulary_.keys())[np.argsort(tfidfer.vocabulary_.values())][kept]
+        self.voc = np.array(list(tfidfer.vocabulary_.keys()))[np.argsort(list(tfidfer.vocabulary_.values()))][kept]
+
         ##############################################################
 
         ### Term frequency as feature, L2 normalization ##########
@@ -192,12 +197,13 @@ class MAR(object):
 
     ## save model ##
     def save(self):
-        with open("memory/"+str(self.name)+".pickle","w") as handle:
+        with open("memory/"+str(self.name)+".pickle","wb") as handle:
             pickle.dump(self,handle)
+
 
     ## load model ##
     def load(self):
-        with open("memory/" + str(self.name) + ".pickle", "r") as handle:
+        with open("memory/" + str(self.name) + ".pickle", "rb") as handle:
             tmp = pickle.load(handle)
         return tmp
 
@@ -464,7 +470,7 @@ class MAR(object):
 
         ### Combine title and abstract for training ###########
         content = [self.body["Document Title"][index] + " " + self.body["Abstract"][index] for index in
-                   xrange(len(self.body["Document Title"]))]
+                   range(len(self.body["Document Title"]))]
         #######################################################
 
         ### Feature selection by tfidf in order to keep vocabulary ###
@@ -479,9 +485,9 @@ class MAR(object):
             id= tfidfer.vocabulary_[word]
             df = sum([1 for wc in tf[:,id] if wc>0])
             idf = np.log((len(content)-df+0.5)/(df+0.5))
-            for i in xrange(len(content)):
+            for i in range(len(content)):
                 score[word].append(idf*tf[i,id]/(tf[i,id]+k1*((1-b)+b*np.sum(tf[0],axis=1)[0,0]/d_avg)))
-        self.bm = np.sum(score.values(),axis=0)
+        self.bm = np.sum(list(score.values()),axis=0)
 
     def BM25_get(self):
         ids = self.pool[np.argsort(self.bm[self.pool])[::-1][:self.step]]
@@ -516,7 +522,7 @@ class MAR(object):
     def format(self,id,prob=[]):
         result=[]
         for ind,i in enumerate(id):
-            tmp = {key: self.body[key][i] for key in self.body}
+            tmp = {key: str(self.body[key][i]) for key in self.body}
             tmp["id"]=str(i)
             if prob!=[]:
                 tmp["prob"]=prob[ind]
@@ -563,7 +569,7 @@ class MAR(object):
         #         order = np.argsort(est)[::-1]
         #         xx = [self.record["x"][-1]]
         #         yy = [self.record["pos"][-1]]
-        #         for x in xrange(int(len(order) / self.step)):
+        #         for x in range(int(len(order) / self.step)):
         #             delta = sum(est[order[x * self.step:(x + 1) * self.step]])
         #             if delta >= 0.1:
         #                 yy.append(yy[-1] + delta)
@@ -593,7 +599,7 @@ class MAR(object):
 
     ## Get missed relevant docs ##
     def get_rest(self):
-        rest=[x for x in xrange(len(self.body['label'])) if self.body['label'][x]=='yes' and self.body['code'][x]!='yes']
+        rest=[x for x in range(len(self.body['label'])) if self.body['label'][x]=='yes' and self.body['code'][x]!='yes']
         rests={}
         # fields = ["Document Title", "Abstract", "Year", "PDF Link"]
         fields = ["Document Title"]
