@@ -63,7 +63,7 @@ def BM25(filename, seed, stop, query='',  stopat=0.95, starting=1, thres=30,j=0)
            # stop if estimated recall is above the target recall
 
            if stop == 'est':
-               print ("est execution")  
+               print ("est execution")
                if stopat * read.est_num <= pos:
 
                    break
@@ -151,9 +151,11 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 stop_words = set(stopwords.words('english'))
 simbols = ['(',')','-']
-pasta = "DTA/topics/"
+
+pasta = "DTA_2017/training/topics_train/" #modificar isso e por os nomes dos topicos ao inves dos numeros nos arquivos
 caminhos = [os.path.join(pasta, nome) for nome in os.listdir(pasta)]
 arquivos = [arq for arq in caminhos if os.path.isfile(arq)]
+print(arquivos)
 query=[]
 for topic in arquivos:
     arq_topic = open(topic,"r")
@@ -169,13 +171,13 @@ for topic in arquivos:
             line = ' '.join(filtered_sentence)
             query.append(line)
     arq_topic.close()
-arquivos = [arq.split('/')[2]+'.csv' for arq in arquivos]
+arquivos = [arq.split('/')[3]+'.csv' for arq in arquivos]
 filesInput=arquivos
 filesOutput=[a.rstrip('.csv') for a in arquivos]
 # filesInput = ['CD011431.csv']
 # filesOutput = ['CD011431']
 # query = ['rapid diagnostic tests diagnosing uncomplicated falciparum plasmodium vivax malaria endemic countries']
-for j in range(1):
+for j in range(len(filesInput)):
     filew=open(filesOutput[j],"w") 
     queryw=query[j]
     media_recal=0
@@ -188,7 +190,7 @@ for j in range(1):
     positList=[]
     allList=[]
     for i in range (rangevalue):
-        read=BM25(filesInput[j], i, 'est', queryw,0.95,1,30,j)
+        read=BM25(filesInput[j], i, 'knee', queryw,0.95,1,30,j)
         filew.write(("posit "+ str(read.record['pos'][-1])+ " all "+ str(read.record['x'][-1])) +"\n")
         filew.write(str(read.get_numbers())+"\n")
         filew.write(("recall:"+ str(read.record['pos'][-1]/float(read.get_allpos()))+ " precision " + str(read.record['pos'][-1]/float(read.record['x'][-1])))+"\n")

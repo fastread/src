@@ -51,6 +51,8 @@ arq_content.close()
 
 linha = ['Document Title','Abstract','Year','PDF Link','label']
 for j in range(len(list_topicN)):
+    if list_topicN[j] != 'CD008691' and list_topicN[j] != 'CD010632' and list_topicN[j] != 'CD007394':
+        continue
     nomeCSV = '../workspace/data/' + list_topicN[j] + '.csv'
     with open(nomeCSV, 'w') as file:
         writer = csv.writer(file)

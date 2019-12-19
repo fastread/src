@@ -1,0 +1,37 @@
+posit 192 all 1050
+(192, 858, 125182)
+recall:0.96 precision 0.182857142857
+posit 192 all 1140
+(192, 948, 125182)
+recall:0.96 precision 0.168421052632
+posit 190 all 900
+(190, 710, 125182)
+recall:0.95 precision 0.211111111111
+posit 192 all 990
+(192, 798, 125182)
+recall:0.96 precision 0.193939393939
+posit 192 all 930
+(192, 738, 125182)
+recall:0.96 precision 0.206451612903
+posit 191 all 930
+(191, 739, 125182)
+recall:0.955 precision 0.205376344086
+posit 192 all 1050
+(192, 858, 125182)
+recall:0.96 precision 0.182857142857
+posit 191 all 1020
+(191, 829, 125182)
+recall:0.955 precision 0.187254901961
+posit 192 all 990
+(192, 798, 125182)
+recall:0.96 precision 0.193939393939
+posit 192 all 1050
+(192, 858, 125182)
+recall:0.96 precision 0.182857142857
+recall calculos['soma'] 9.58 calculos['media'] 0.958 calculos['variancia'] 1.1e-05 calculos['desvio_padrao'] 0.00331662479036
+precision calculos['soma'] 1.91506523914 calculos['media'] 0.191506523914 calculos['variancia'] 0.000158735580035 calculos['desvio_padrao'] 0.0125990309165
+allList calculos['soma'] 10050 calculos['media'] 1005.0 calculos['variancia'] 4725.0 calculos['desvio_padrao'] 68.7386354243
+0.958
+0.191506523914
+191.6
+1005.0

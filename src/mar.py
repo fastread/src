@@ -13,7 +13,7 @@ import os
 class MAR(object):
     def __init__(self):
         self.fea_num = 4000
-        self.step = 10
+        self.step = 30
         self.enough = 30
         self.kept=50
         self.atleast=100
