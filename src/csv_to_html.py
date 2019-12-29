@@ -50,3 +50,16 @@ for csv_file_name in csv_files:
             files_in_dir = -1
             dir_index += 1
 
+
+        # writes to html file
+        with open(html_file_name, "w") as html_file:
+            html_file.write("<TEXT>&#2;")
+            html_file.write("<DATELINE>" + row[2] + "</DATELINE>")
+            html_file.write("<TITLE>" + row[0] + "</TITLE>")
+            html_file.write("<BODY>" + row[1])
+            html_file.write("&#3;</BODY></TEXT>")
+
+        files_in_dir += 1
+        row_number += 1
+
+    csv_file.close()
