@@ -77,6 +77,10 @@ for j in range(len(list_topicN)):
                     if ';' in child.text:
                         aux2 = child.text.split(';')
                         child.text = aux2[0] + aux2[1]
+                    if child.text[0] == "[":
+                        print(child.text)
+                        child.text = child.text[1:len(child.text)-2] + "."
+                        print(child.text)
                     row[0] = child.text
                 elif child.tag == 'AbstractText':
                     if child.text == None:
