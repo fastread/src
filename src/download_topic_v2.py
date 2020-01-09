@@ -12,6 +12,7 @@ aux = 1
 list_of_pids = [[]]
 list_topics = []
 for topic in arquivos:
+    print("TOPIC: ", topic)
     arq_topic = open(topic,"r")
     for line in arq_topic:
         line = line.rstrip('\n')
@@ -67,7 +68,7 @@ for j in range(len(list_topicN)):
             wtr = 0
             aux2 = ''
             for child in root.iter(filtro):
-                # print(child.tag,child.text)   
+                # print(child.tag,child.text)
                 # se colocar esse print de cima vai ver o conteudo do xml, ai pode ver que tem abstracts faltando
                 if child.tag == 'ArticleTitle':
                     wtr = 0
@@ -76,7 +77,7 @@ for j in range(len(list_topicN)):
                     if ';' in child.text:
                         aux2 = child.text.split(';')
                         child.text = aux2[0] + aux2[1]
-                    row[0] = child.text         
+                    row[0] = child.text
                 elif child.tag == 'AbstractText':
                     if child.text == None:
                         continue
