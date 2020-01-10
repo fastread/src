@@ -50,6 +50,7 @@ for csv_file_name in csv_files:
             files_in_dir = -1
             dir_index += 1
 
+        html_file_name = os.path.join(dir_name, topic + " - " + str(row_number).zfill(6))
 
         # writes to html file
         with open(html_file_name, "w") as html_file:
