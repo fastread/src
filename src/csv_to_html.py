@@ -14,7 +14,7 @@ import os
 
 SOURCE = "../workspace/data"
 DEST = "../workspace/cormarck-data"
-MAP_FILE = "html-pid-mapping"
+MAP_FILE = "../oldreut/html-pid-mapping"
 
 if not os.path.exists(DEST):
     os.mkdir(DEST)

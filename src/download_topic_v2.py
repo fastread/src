@@ -51,7 +51,7 @@ arq_content.close()
 
 linha = ['Document Title','Abstract','Year','PDF Link','label']
 for j in range(len(list_topicN)):
-    if list_topicN[j] != 'CD008691' and list_topicN[j] != 'CD010632' and list_topicN[j] != 'CD007394':
+    if list_topicN[j] == 'CD007394' or list_topicN[j] == 'CD008691' or list_topicN[j] == 'CD010632':
         continue
     nomeCSV = '../workspace/data/' + list_topicN[j] + '.csv'
     with open(nomeCSV, 'w') as file:
@@ -77,9 +77,7 @@ for j in range(len(list_topicN)):
                         aux2 = child.text.split(';')
                         child.text = aux2[0] + aux2[1]
                     if child.text[0] == "[":
-                        print(child.text)
                         child.text = child.text[1:len(child.text)-2] + "."
-                        print(child.text)
                     row[0] = child.text
                 elif child.tag == 'AbstractText':
                     if child.text == None:
