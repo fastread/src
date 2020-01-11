@@ -6,6 +6,8 @@ DEST_SUBTOPICS_FILE = "../oldreut/qrels.list"
 SOURCE_TOPIC_DIR = "DTA_2017/training/topics_train"
 DEST_TOPIC_FILE = "../oldreut/topic.stemming"
 
+MAP_FILE = "../oldreut/html-pid-mapping"
+
 if not os.path.exists("../oldreut"):
     os.mkdir("../oldreut")
 
@@ -36,15 +38,35 @@ dst_topic_file.close()
 # Builds the file with positives files only
 dst_subtopics_file = open(DEST_SUBTOPICS_FILE, "w")
 
-with open(SOURCE_SUBTOPICS_FILE, "r") as subtopics_file:
-    for line in subtopics_file.readlines():
-        line_info = line.split()
-        if line_info[3] == "1":
-            dst_subtopics_file.write(
-                    topic_map[line_info[0]] + " " +
-                    line_info[1] + " " +
-                    line_info[2] + " " +
-                    line_info[3] + "\n"
-                )
+with open(MAP_FILE, "r") as map_file:
+
+    with open(SOURCE_SUBTOPICS_FILE, "r") as subtopics_file:
+
+        for line in subtopics_file.readlines():
+            line_info = line.split()
+
+            if line_info[3] == "1":
+
+                html_file_number = None
+
+                for map_line in map_file:
+                    if map_line.split()[0] != line_info[0]:
+                        continue
+
+                    else:
+                        if map_line.split()[1] != line_info[2]:
+                            continue
+
+                        else:
+                            html_file_number = map_line.split()[2]
+                            break
+
+                print(html_file_number)
+                dst_subtopics_file.write(
+                        topic_map[line_info[0]] + " " +
+                        line_info[1] + " " +
+                        str(html_file_number) + " " +
+                        line_info[3] + "\n"
+                    )
 
 dst_subtopics_file.close()
