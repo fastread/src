@@ -52,6 +52,7 @@ arq_content.close()
 
 linha = ['Document Title','Abstract','Year','PDF Link','label']
 for j in range(len(list_topicN)):
+    if list_topicN[j] in ["CD007394", "CD008691", "CD010632"]
     #if list_topicN[j] == 'CD007394' or list_topicN[j] == 'CD007427' or list_topicN[j] == 'CD008054' or list_topicN[j] == 'CD008643' or list_topicN[j] == 'CD008686' or list_topicN[j] == 'CD008691' or list_topicN[j] == 'CD009020' or list_topicN[j] == 'CD009323' or list_topicN[j] == 'CD009593' or list_topicN[j] == 'CD009944' or list_topicN[j] == 'CD010409' or list_topicN[j] == 'CD010438' or list_topicN[j] == 'CD010632' or list_topicN[j] == 'CD010771asd' or list_topicN[j] == 'CD011134' or list_topicN[j] == 'CD011548' or list_topicN[j] == 'CD011549' or list_topicN[j] == 'CD011975' or list_topicN[j] == 'CD011984':
         #continue
 
