@@ -38,35 +38,40 @@ dst_topic_file.close()
 # Builds the file with positives files only
 dst_subtopics_file = open(DEST_SUBTOPICS_FILE, "w")
 
-with open(MAP_FILE, "r") as map_file:
 
-    with open(SOURCE_SUBTOPICS_FILE, "r") as subtopics_file:
+with open(SOURCE_SUBTOPICS_FILE, "r") as subtopics_file:
 
-        for line in subtopics_file.readlines():
-            line_info = line.split()
+    for line in subtopics_file.readlines():
+        line_info = line.split()
 
-            if line_info[3] == "1":
+        if line_info[3] == "1":
 
-                html_file_number = None
+            html_file_number = None
 
-                for map_line in map_file:
+            with open(MAP_FILE) as map_file:
+
+                for map_line in map_file.readlines():
                     if map_line.split()[0] != line_info[0]:
+                        #print("if 1:", map_line.split()[0], line_info[0])
                         continue
 
                     else:
                         if map_line.split()[1] != line_info[2]:
+                            #print("if 2:", map_line.split()[1], line_info[2])
                             continue
 
                         else:
                             html_file_number = map_line.split()[2]
                             break
 
-                print(html_file_number)
+            if html_file_number == None:
+                print(line_info[0], line_info[2])
+
                 dst_subtopics_file.write(
-                        topic_map[line_info[0]] + " " +
-                        line_info[1] + " " +
-                        str(html_file_number) + " " +
-                        line_info[3] + "\n"
-                    )
+                    topic_map[line_info[0]] + " " +
+                    line_info[1] + " " +
+                    str(html_file_number) + " " +
+                    line_info[3] + "\n"
+                )
 
 dst_subtopics_file.close()
