@@ -471,7 +471,7 @@ class MAR(object):
         k1=1.5
 
         ### Combine title and abstract for training ###########
-        content = [self.body["Document Title"][index] + " " + self.body["Abstract"][index] for index in
+        content = [str(self.body["Document Title"][index]) + " " + str(self.body["Abstract"][index]) for index in
                    range(len(self.body["Document Title"]))]
         #######################################################
 
