@@ -158,7 +158,6 @@ class MAR(object):
     def export(self):
         fields = ["Document Title", "Abstract", "Year", "PDF Link", "label", "code","time"]
         with open("../workspace/coded/" + str(self.name) + ".csv", "w") as csvfile:
-            set_trace()
             csvwriter = csv.writer(csvfile, delimiter=',')
             csvwriter.writerow(fields)
             ## sort before export
@@ -175,7 +174,7 @@ class MAR(object):
 
     def preprocess(self):
         ### Combine title and abstract for training ###########
-        content = [self.body["Document Title"][index] + " " + self.body["Abstract"][index] for index in range(len(self.body))]
+        content = [str(self.body["Document Title"][index]) + " " + str(self.body["Abstract"][index]) for index in range(len(self.body))]
         #######################################################
 
         ### Feature selection by tfidf in order to keep vocabulary ###
@@ -308,7 +307,7 @@ class MAR(object):
     ## Train model ##
     def train(self,pne=True,weighting=True):
 
-        clf = svm.SVC(kernel='linear', probability=True, class_weight='balanced') if weighting else svm.SVC(kernel='linear', probability=True)
+        clf = svm.LinearSVC(kernel='linear', probability=True, class_weight='balanced') if weighting else svm.SVC(kernel='linear', probability=True)
         poses = np.where(np.array(self.body['code']) == "yes")[0]
         negs = np.where(np.array(self.body['code']) == "no")[0]
         left = poses
