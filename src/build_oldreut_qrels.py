@@ -15,7 +15,7 @@ topic_map = {}
 
 # Builds the file with topic names
 topics = [os.path.join(SOURCE_TOPIC_DIR, f) for f in os.listdir(SOURCE_TOPIC_DIR)]
-topic_files = [topic for topic in topics if os.path.isfile(topic)]
+topic_files = [topic for topic in sorted(topics) if os.path.isfile(topic)]
 
 topic_number = 0
 dst_topic_file = open(DEST_TOPIC_FILE, "w")
@@ -51,27 +51,22 @@ with open(SOURCE_SUBTOPICS_FILE, "r") as subtopics_file:
             with open(MAP_FILE) as map_file:
 
                 for map_line in map_file.readlines():
-                    if map_line.split()[0] != line_info[0]:
-                        #print("if 1:", map_line.split()[0], line_info[0])
+                    if map_line.split()[1] != line_info[2]:
+                        #print("if 2:", map_line.split()[1], line_info[2])
                         continue
 
                     else:
-                        if map_line.split()[1] != line_info[2]:
-                            #print("if 2:", map_line.split()[1], line_info[2])
-                            continue
-
-                        else:
-                            html_file_number = map_line.split()[2]
-                            break
+                        html_file_number = map_line.split()[2]
+                        break
 
             if html_file_number == None:
                 print(line_info[0], line_info[2])
 
-                dst_subtopics_file.write(
-                    topic_map[line_info[0]] + " " +
-                    line_info[1] + " " +
-                    str(html_file_number) + " " +
-                    line_info[3] + "\n"
-                )
+            dst_subtopics_file.write(
+                topic_map[line_info[0]] + " " +
+                line_info[1] + " " +
+                str(html_file_number) + " " +
+                line_info[3] + "\n"
+            )
 
 dst_subtopics_file.close()
