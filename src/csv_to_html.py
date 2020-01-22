@@ -20,6 +20,7 @@ if not os.path.exists(DEST):
     os.mkdir(DEST)
 
 csv_files = [os.path.join(SOURCE, f) for f in os.listdir(SOURCE) if f.split(".")[-1] == "csv"]
+documents_included = []
 
 files_in_dir = 0
 dir_index = 0
@@ -29,6 +30,7 @@ map_file = open(MAP_FILE, "w")
 
 for csv_file_name in csv_files:
     topic = os.path.split(csv_file_name)[1].split(".")[0]
+    print("MIAU: ", topic, "\n\n\n\n\n\n\n")
 
     csv_file = open(csv_file_name, "r")
     reader = csv.reader(csv_file)
@@ -39,6 +41,14 @@ for csv_file_name in csv_files:
         # header is ignored
         if row_number == 0:
             row_number += 1
+            continue
+
+        # checks if documents is not included yet
+        if row[3] not in documents_included:
+            documents_included.append(row[3])
+
+        else:
+            print(row[3])
             continue
 
         # creates a new directory
