@@ -156,4 +156,6 @@ Aug 01, 2017. **v1.3.0** Core algorithm updated to utilize both Weighting and ag
 Aug 28, 2017. **v1.4.0** Integrated as FAST2.
 
 Nov 15, 2017. **v1.5.0** Allow user to change their decision on previous labels. Machine suggestions used to efficiently handle human errors or concept drift.
+
+Jan 28, 2020. **v1.6.0** Added Support for Python 3. Show latest labeled items so that it is easy for the users to change their decisions. 
  
