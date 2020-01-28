@@ -270,6 +270,9 @@ function view_selection(what){
                 break;
             case 3:
                 view_neg();
+                break;
+            case 4:
+                view_latest();
         }
     }    
 }
@@ -331,6 +334,42 @@ function view_reuse() {
 
             var newli = document.createElement("li");
             var node=document.createTextNode(" (ID: " + can[i]["id"] + ")" + can[i]["Document Title"]+" ("+can[i]["prob"].toString()+")");
+            newli.appendChild(node);
+            newli.setAttribute("value",i);
+            newli.setAttribute("onclick", "show_send(this,\"learn\")");
+            olnode.appendChild(newli);
+        }
+        show_send(olnode.firstChild, "learn");
+    }
+}
+
+function view_latest(){
+    if(!labeled){
+        $.ajax({
+            type: "POST",
+            url: "/susp",
+            async: true,
+            data: { },
+            success: latest_receive
+        });
+    } else {
+        latest_receive(labeled)
+    }
+}
+
+function latest_receive(response) {
+    labeled = response
+    var olnode = document.getElementById("learn_result");
+    while (olnode.firstChild) {
+        olnode.removeChild(olnode.firstChild);
+    }
+    if ("latest" in labeled) {
+        can = labeled.latest;
+
+        for (var i = 0; i < can.length; ++i) {
+
+            var newli = document.createElement("li");
+            var node=document.createTextNode(" (ID: " + can[i]["id"] + ")" + can[i]["Document Title"]);
             newli.appendChild(node);
             newli.setAttribute("value",i);
             newli.setAttribute("onclick", "show_send(this,\"learn\")");

@@ -113,8 +113,10 @@ def train():
 def susp():
     res={}
     pos_id, pos_prob, neg_id, neg_prob = target.susp(clf)
+    latest_id = target.latest_labeled()
     res["pos"] = target.format(pos_id,pos_prob)
     res["neg"] = target.format(neg_id,neg_prob)
+    res["latest"] = target.format(latest_id)
     return jsonify(res)
 
 @app.route('/search',methods=['POST'])

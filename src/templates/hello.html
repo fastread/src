@@ -18,6 +18,7 @@
             <option id="certain" value="certain" onclick="view_certain()" title="Certainty sampling, recommended when #relevant is higher (say > 30% of estimated number)." >Certain</option>
             <option id="pos" value="labeled pos" onclick="view_pos()" title="Review the studies labeled as Relevant." >Labeled Pos</option>
             <option id="neg" value="labeled neg" onclick="view_neg()" title="Review the studies labeled as Irrelevant." >Labeled Neg</option>
+            <option id="latest" value="labeled latest" onclick="view_latest()" title="Review the latest labeled studies." >Latest Labeled</option>
         </select>
         <button onclick="train_send()" style="float:right" disabled> Next </button>
         <button onclick="auto_review()" id="auto" style="float:right" disabled> Auto Review </button>

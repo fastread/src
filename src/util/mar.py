@@ -307,7 +307,7 @@ class MAR(object):
     ## Train model ##
     def train(self,pne=True,weighting=True):
 
-        clf = svm.LinearSVC(kernel='linear', probability=True, class_weight='balanced') if weighting else svm.SVC(kernel='linear', probability=True)
+        clf = svm.SVC(kernel='linear', probability=True, class_weight='balanced') if weighting else svm.SVC(kernel='linear', probability=True)
         poses = np.where(np.array(self.body['code']) == "yes")[0]
         negs = np.where(np.array(self.body['code']) == "no")[0]
         left = poses
@@ -611,3 +611,6 @@ class MAR(object):
                 rests[r][f]=self.body[f][r]
         return rests
 
+    def latest_labeled(self):
+        order = np.argsort(np.array(self.body['time'])[self.labeled])[::-1]
+        return np.array(self.labeled)[order]
