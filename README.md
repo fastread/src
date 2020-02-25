@@ -137,7 +137,8 @@ Two options added:
 It is recommended to recheck the top 10 suspicious labels every 50 studies reviewed.
   
 
-
+### Run simulations of FASTREAD on labeled datasets:
+[simulate.py](https://github.com/fastread/src/blob/master/src/simulate.py)
 
 
   
