@@ -82,7 +82,7 @@ class MAR(object):
 
 
     def loadfile(self):
-        self.body = pd.read_csv("../workspace/data/" + str(self.filename),encoding='latin-1')
+        self.body = pd.read_csv("../workspace/data/" + str(self.filename),encoding=None)
         fields = ["Document Title", "Abstract", "Year", "PDF Link"]
         columns = self.body.columns
         n = len(self.body)
@@ -97,6 +97,7 @@ class MAR(object):
             self.body["time"] = [0]*n
         if "fixed" not in columns:
             self.body["fixed"] = [0]*n
+        self.body = self.body.fillna("")
         return
 
     def create_lda(self,filename):
@@ -173,8 +174,8 @@ class MAR(object):
         return
 
     def preprocess(self):
-        ### Combine title and abstract for training ###########
-        content = [str(self.body["Document Title"][index]) + " " + str(self.body["Abstract"][index]) for index in range(len(self.body))]
+        ### Combine title and abstract for training ##################
+        content = [str(self.body["Document Title"][index]) + " "  + str(self.body["Abstract"][index]) for index in range(len(self.body))]
         #######################################################
 
         ### Feature selection by tfidf in order to keep vocabulary ###
@@ -524,7 +525,7 @@ class MAR(object):
     def format(self,id,prob=[]):
         result=[]
         for ind,i in enumerate(id):
-            tmp = {key: str(self.body[key][i]) for key in self.body}
+            tmp = {key: str(self.body[key][i]).decode("utf-8",errors="ignore") for key in self.body}
             tmp["id"]=str(i)
             if prob!=[]:
                 tmp["prob"]=prob[ind]
