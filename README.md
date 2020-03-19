@@ -68,7 +68,7 @@ Use FASTREAD
 2.5. [Better ways to start the review](#better-ways-to-start-the-review)
   
 3. Begin reviewing studies:
-  - Check the box before **Estimation**.
+  - Check the box before **Enable Estimation**.
   - Choose from **Relevant**, **Irrelevant**, or **Undetermined** for each study and hit **Submit**.
   - Hit **Next** when you want a to review more.
   - Statistics are displayed as **Documents Coded: x/y (z)**, where **x** is the number of relevant studies retrieved, **y** is the number of studies reviewed, and **z** is the total number of candidate studies.
