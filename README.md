@@ -69,15 +69,14 @@ Use FASTREAD
   
 3. Begin reviewing studies:
   - Check the box before **Enable Estimation**.
+  - A simple search with two or three keywords can help find **Relevant** studies fast before any training starts.
+![](https://github.com/fastread/src/blob/master/tutorial/screenshots/BM25.png?raw=yes)
   - Choose from **Relevant**, **Irrelevant**, or **Undetermined** for each study and hit **Submit**.
   - Hit **Next** when you want a to review more.
   - Statistics are displayed as **Documents Coded: x/y (z)**, where **x** is the number of relevant studies retrieved, **y** is the number of studies reviewed, and **z** is the total number of candidate studies.
   - When **x** is greater than or equal to 1, an SVM model will be trained after hitting **Next**. From now on, different query strategies can be chosen.
   - It is suggested to keep using **Uncertain** until the highest probability score for **Certain** is greater than 0.9 or no **Relevant** studies can be found throught **Uncertain** (switch to **Certain** at that point of time).
-  - keep reviewing studies until you think most relevant ones have been retrieved. (If **Estimation** is enabled, stop when **x** is close to or greater than 0.95 of the estimated number of **Relevant** studies.)
-  
-3.5. Auto review:
-  + If your data contains true label, like Hall.csv does, another button called **Auto Review** will be enabled. By clicking it, it automatically labels all your current studies (depending on the selection **Certain** or **Uncertain**).
+  - keep reviewing studies until you think most relevant ones have been retrieved. (If **Estimation** is enabled, stop when **x** is close to or greater than 0.95 (or 0.90) of the estimated number of **Relevant** studies.)
 
 4. Plot the curve:
   + Click **Plot** button will plot a **Relevant studies retrieved** vs. **Studies reviewed** curve.
@@ -94,40 +93,6 @@ Use FASTREAD
 7. Remember to click **Next** button:
   + User data will be saved when and only when you hit **Next** button, so please don't forget to hit it before you want to stop reviewing.
 
-### Better ways to start the review:
-  
- - Start with keyword search (New feature in v1.4.0)
------
-
-A simple search with two or three keywords can help find **Relevant** studies fast before any training starts. After finding the first **Relevant** study, **Uncertain** sampling can begin.
-![](https://github.com/fastread/src/blob/master/tutorial/screenshots/BM25.png?raw=yes)
-
- - Re-Use FASTREAD
------
-
-Exported primary study selection results (e.g. *workspace > coded > Hall.csv* ) can be re-applied to bootstrap new selections (e.g. *workspace > data > Wahono.csv* ).
-
-1. Get data ready:
-  + Make sure previously exported data is in *workspace > coded*.
-  + Or create csv file with the same format as *workspace > coded > Hall.csv* and put it in *workspace > coded*.
-  + Put your candidate list (a csv file) for the new selection in *workspace > data*.
-
-2. Load the data for current selection:
-  + Click **target: Choose File** button to select your csv file in *workspace > data*. Wait a few seconds for the first time. Once the data is successfully loaded, you will see the following:
-  ![](https://github.com/fastread/src/blob/master/tutorial/screenshots/load1.png?raw=yes)
-
-3. Load old data:
-  + Click **import: Choose File** button to select your csv file in *workspace > coded*. Wait a few seconds for the first time. Once the data is successfully loaded, you will see the following:
-  ![](https://github.com/fastread/src/blob/master/tutorial/screenshots/load2.png?raw=yes)
-  
-4. Begin reviewing studies:
-  - Select **Certain** instead of **Uncertain**
-  - choose from **Relevant**, **Irrelevant**, or **Undetermined** for each study and hit **Submit**.
-  - hit **Next** when you want a to review more.
-  - statistics are displayed as **Documents Coded: x/y (z)**, where **x** is the number of relevant studies retrieved, **y** is the number of studies reviewed, and **z** is the total number of candidate studies.
-  - keep reviewing studies until you think most relevant ones have been retrieved. (If **Estimation** is enabled, stop when **x** is close to or greater than 0.95 of the estimated number of **Relevant** studies.)
-  
-
 ### Double checking previous labels:
 
 Now we allow users to recheck their previously labeled results and change their decisions. Therefore human errors/concept drift can be handled. Model learned so far is also used to suggest which labels are most suspicious. 
@@ -136,6 +101,7 @@ Two options added:
   - **Labeled Neg**: recheck the studies previously labeled as **Irrelevant**. Sorted by the level of disagreement between current model prediction and human label.
   ![](https://github.com/fastread/src/blob/master/tutorial/screenshots/recheck.png?raw=yes)
 It is recommended to recheck the top 10 suspicious labels every 50 studies reviewed.
+  - **Latest**: change latest submitted labels.
   
 
 ### Run simulations of FASTREAD on labeled datasets:
