@@ -1,6 +1,6 @@
-What is FASTREAD?
+What is FASTREAD (or FAST2)?
 -----
-FASTREAD is a tool to support primary study selection in systematic literature review.
+FASTREAD (FAST2) is a tool to support primary study selection in systematic literature review.
 
 Latest Versions:
 
