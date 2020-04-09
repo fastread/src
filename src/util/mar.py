@@ -82,7 +82,7 @@ class MAR(object):
 
 
     def loadfile(self):
-        self.body = pd.read_csv("../workspace/data/" + str(self.filename),encoding=None)
+        self.body = pd.read_csv("../workspace/data/" + str(self.filename),encoding = "ISO-8859-1")
         fields = ["Document Title", "Abstract", "Year", "PDF Link"]
         columns = self.body.columns
         n = len(self.body)
@@ -158,19 +158,13 @@ class MAR(object):
 
     def export(self):
         fields = ["Document Title", "Abstract", "Year", "PDF Link", "label", "code","time"]
-        with open("../workspace/coded/" + str(self.name) + ".csv", "w") as csvfile:
-            csvwriter = csv.writer(csvfile, delimiter=',')
-            csvwriter.writerow(fields)
-            ## sort before export
-            time_order = np.argsort(self.body["time"])[::-1]
-            yes = [c for c in time_order if self.body["code"][c]=="yes"]
-            no = [c for c in time_order if self.body["code"][c] == "no"]
-            und = [c for c in time_order if self.body["code"][c] == "undetermined"]
-            ##
-            for ind in yes+no+und:
-                csvwriter.writerow([self.body[field][ind] for field in fields])
-
-
+        body = self.body[fields]
+        body.sort_values(by=['time'], ascending=False)
+        yes = body.loc[body['code'] == 'yes']
+        no = body.loc[body['code'] == 'no']
+        und = body.loc[body['code'] == 'undetermined']
+        out = pd.concat([yes, no, und], ignore_index=True)
+        out.to_csv("../workspace/coded/" + str(self.name) + ".csv",columns=fields,index=False)
         return
 
     def preprocess(self):
@@ -525,7 +519,7 @@ class MAR(object):
     def format(self,id,prob=[]):
         result=[]
         for ind,i in enumerate(id):
-            tmp = {key: str(self.body[key][i]).decode("utf-8",errors="ignore") for key in self.body}
+            tmp = {key: str(self.body[key][i]) for key in self.body}
             tmp["id"]=str(i)
             if prob!=[]:
                 tmp["prob"]=prob[ind]
