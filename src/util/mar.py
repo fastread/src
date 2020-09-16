@@ -9,6 +9,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import csv
 from collections import Counter
 from sklearn import svm
+from sklearn import linear_model
 import matplotlib.pyplot as plt
 import time
 import os
@@ -100,39 +101,6 @@ class MAR(object):
         self.body = self.body.fillna("")
         return
 
-    def create_lda(self,filename):
-        self.filename=filename
-        self.name=self.filename.split(".")[0]
-        self.flag=True
-        self.hasLabel=True
-        self.record={"x":[],"pos":[]}
-        self.body={}
-        self.est_num=[]
-        self.lastprob=0
-        self.offset=0.5
-        self.interval=3
-        self.last_pos=0
-        self.last_neg=0
-
-
-        try:
-            ## if model already exists, load it ##
-            return self.load()
-        except:
-            ## otherwise read from file ##
-            try:
-                self.loadfile()
-                self.preprocess()
-                import lda
-                from scipy.sparse import csr_matrix
-                lda1 = lda.LDA(n_topics=100, alpha=0.1, eta=0.01, n_iter=200)
-                self.csr_mat = csr_matrix(lda1.fit_transform(self.csr_mat))
-                self.save()
-            except:
-                ## cannot find file in workspace ##
-                self.flag=False
-        return self
-
     def export_feature(self):
         with open("../workspace/coded/feature_" + str(self.name) + ".csv", "wb") as csvfile:
             csvwriter = csv.writer(csvfile, delimiter=',')
@@ -206,10 +174,6 @@ class MAR(object):
 
 
     def estimate_curve(self, clf, reuse=False, num_neg=0):
-        from sklearn import linear_model
-        import random
-
-
 
         def prob_sample(probs):
             order = np.argsort(probs)[::-1]
@@ -557,24 +521,7 @@ class MAR(object):
             rec.append(counter)
         plt.plot(range(len(rec)), rec)
 
-        # plt.plot(self.record['x'], self.record["pos"])
 
-        ### estimation ####
-        # if self.enable_est:
-        #     if self.record["pos"][-1] > int(self.est_num/2) and self.record["pos"][-1] < self.est_num:
-        #         est = self.est[self.pool]
-        #         order = np.argsort(est)[::-1]
-        #         xx = [self.record["x"][-1]]
-        #         yy = [self.record["pos"][-1]]
-        #         for x in range(int(len(order) / self.step)):
-        #             delta = sum(est[order[x * self.step:(x + 1) * self.step]])
-        #             if delta >= 0.1:
-        #                 yy.append(yy[-1] + delta)
-        #                 xx.append(xx[-1] + self.step)
-        #             else:
-        #                 break
-        #         plt.plot(xx, yy, "-.")
-        ####################
         plt.ylabel("Relevant Found")
         plt.xlabel("Documents Reviewed")
         name=self.name+ "_" + str(int(time.time()))+".png"
