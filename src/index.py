@@ -2,9 +2,7 @@ from __future__ import print_function, division
 
 import os
 import sys
-
-root = os.getcwd().split("src")[0] + "src/src/util"
-sys.path.append(root)
+sys.path.append('./util/')
 
 from flask import Flask, url_for, render_template, request, jsonify, Response, json
 from pdb import set_trace
@@ -17,7 +15,7 @@ target=MAR()
 global clf
 clf = []
 
-@app.route('/hello/')
+@app.route('/')
 def hello():
     return render_template('hello.html')
 
