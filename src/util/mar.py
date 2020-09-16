@@ -510,6 +510,9 @@ class MAR(object):
 
         plt.rcParams.update(paras)
 
+        if len(self.labeled)<=0:
+            return
+
         fig = plt.figure()
         order = np.argsort(np.array(self.body['time'])[self.labeled])
         seq = np.array(self.body['code'])[np.array(self.labeled)[order]]
