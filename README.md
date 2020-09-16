@@ -40,7 +40,7 @@ Setting up FASTREAD
 
 1. Setting up Python:
   + We use anaconda by continuum.io (see [Why?](https://www.continuum.io/why-anaconda))
-    - We won't need the entire distribution. [Download](http://conda.pydata.org/miniconda.html) a Python 3.7 & install a minimal version of anaconda.
+    - We won't need the entire distribution. [Download](http://conda.pydata.org/miniconda.html) a Python 3.7+ & install a minimal version of anaconda.
   + Make sure you select add to PATH during install.
   + Next, run `setup.bat`. This will install all the dependencies needed to run the tool. Or:
   + If the above does not work well. Remember you only need a Python 3.7 and three packages listed in `requirements.txt` installed. So `pip install -r requirements.txt` will work.
