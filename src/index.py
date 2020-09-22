@@ -28,6 +28,7 @@ def load():
     pos, neg, total = target.get_numbers()
     return jsonify({"hasLabel": target.hasLabel, "flag": target.flag, "pos": pos, "done": pos+neg, "total": total})
 
+# Depreciated
 @app.route('/load_old',methods=['POST'])
 def load_old():
     global target

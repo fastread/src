@@ -52,6 +52,7 @@ class MAR(object):
         self.enable_est=False
         return self
 
+    ### Depreciated
     ### Use previous knowledge, labeled only
     def create_old(self, filename):
         with open("../workspace/coded/" + str(filename), "r") as csvfile:

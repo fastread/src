@@ -11,8 +11,8 @@
     <div class="learn">
         <font size="2">Target: </font><input type="file" id="myFile" onchange="handleFileSelect(this.files)"/>
         <br/>
-        <font size="2">Import: </font><input type="file" id="oldFile" onchange="handleOldSelect(this.files)" disabled/>
-        <br/>
+<!--        <font size="2">Import: </font><input type="file" id="oldFile" onchange="handleOldSelect(this.files)" disabled/>-->
+<!--        <br/>-->
         <select id="view_options" name="view" style="float:left" onchange="view_selection(this)">
             <option id="uncertain" value="uncertain" onclick="view_uncertain()" title="Uncertainty sampling or random sampling (if no relevant found so far), recommended when #relevant is low (say < 30% of estimated number)." selected>Uncertain</option>
             <option id="certain" value="certain" onclick="view_certain()" title="Certainty sampling, recommended when #relevant is higher (say > 30% of estimated number)." >Certain</option>
