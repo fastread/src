@@ -222,7 +222,7 @@ class MAR(object):
 
         pos_num_last = Counter(y0)[1]
 
-        lifes = 1
+        lifes = 3
         life = lifes
 
 
