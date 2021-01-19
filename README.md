@@ -59,7 +59,7 @@ Use FASTREAD
 
 1. Get data ready:
   + Put your candidate list (a csv file) in *workspace > data*.
-  + The candidate list can be as the same format as the example file *workspace > data > Hall.csv* or a csv file exported from [IEEExplore](http://ieeexplore.ieee.org/).
+  + The candidate list can be as the same format as the example file *workspace > data > Hall.csv* or a csv file exported from [IEEExplore](http://ieeexplore.ieee.org/) and saved in the format of MS-DOS csv.
   
 2. Load the data:
   + Click **Target: Choose File** button to select your csv file in *workspace > data*. Wait a few seconds for the first time. Once the data is successfully loaded, you will see the following:
