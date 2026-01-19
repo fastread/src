@@ -486,7 +486,7 @@ class MAR(object):
         for ind,i in enumerate(id):
             tmp = {key: str(self.body[key][i]) for key in self.body}
             tmp["id"]=str(i)
-            if prob!=[]:
+            if len(prob) > 0:
                 tmp["prob"]=prob[ind]
             result.append(tmp)
         return result
